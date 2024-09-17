@@ -42,7 +42,6 @@ const ModalMessage: React.FC<ModalMessageProps> = ({ open, onClose }) => {
           Detalles de Usuario
         </Typography>
 
-        {/* Nombre, Apellidos y Dirección */}
         <div style={{ display: 'flex', gap: '16px' }}>
             <div style={{ flex: 1 }}>
                 <Typography>Nombre/es*</Typography>
@@ -58,7 +57,6 @@ const ModalMessage: React.FC<ModalMessageProps> = ({ open, onClose }) => {
             </div>
         </div>
 
-        {/* Rol y Otros Detalles */}
         <div style={{ display: 'flex', gap: '16px' }}>
           <div style={{ flex: 1 }}>
             <Typography>Rol*</Typography>
@@ -93,7 +91,6 @@ const ModalMessage: React.FC<ModalMessageProps> = ({ open, onClose }) => {
           </div>
         </div>
 
-        {/* Tipo de Documento */}
         <div style={{ display: 'flex', gap: '16px' }}>
           <div style={{ flex: 1 }}>
             <Typography>Tipo de Documento*</Typography>
@@ -115,7 +112,7 @@ const ModalMessage: React.FC<ModalMessageProps> = ({ open, onClose }) => {
           </div>
         </div>
 
-        {/* Email y Grupo Étnico */}
+
         <div style={{ display: 'flex', gap: '16px' }}>
           <div style={{ flex: 1 }}>
             <Typography>Email*</Typography>
@@ -131,8 +128,6 @@ const ModalMessage: React.FC<ModalMessageProps> = ({ open, onClose }) => {
             </select>
           </div>
         </div>
-
-        {/* LGTBIQ+, Cargo y Nivel Académico */}
         <div style={{ display: 'flex', gap: '16px' }}>
           <div style={{ flex: 1 }}>
             <Typography>Hace parte de la Comunidad LGTBIQ+*</Typography>
@@ -158,8 +153,6 @@ const ModalMessage: React.FC<ModalMessageProps> = ({ open, onClose }) => {
             </select>
           </div>
         </div>
-
-        {/* Botón */}
         <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
           <button style={{ background: "grey", color: 'white', width: '150px' }}>Crear Usuario</button>
         </div>
