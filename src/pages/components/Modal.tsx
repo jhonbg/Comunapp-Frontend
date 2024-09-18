@@ -1,8 +1,14 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
+import axios from 'axios';
+
+interface TipoSelect {
+  id: number;
+  descripcion: string;
+}
 
 interface ModalMessageProps {
   open: boolean;
@@ -10,6 +16,71 @@ interface ModalMessageProps {
 }
 
 const ModalMessage: React.FC<ModalMessageProps> = ({ open, onClose }) => {
+  const [tiposIdentificacion, setTiposIdentificacion] = useState<TipoSelect[]>([]);
+  const [gruposEtnico, setGruposEtnico] = useState<TipoSelect[]>([]);
+  const [nivelAcademico, setNivelAcademico] = useState<TipoSelect[]>([]);
+  const [cargo, setCargo] = useState<TipoSelect[]>([]);
+
+  const fetchTiposIdentificacion = async () => {
+    try {
+      const response = await axios.get('https://comunapp-api.azurewebsites.net/api/tipoIdentificacion?code=jHxnbq4O_ZSg5YZHlAebB4nCtW582vBT2bhqBREk-tG5AzFudUVGNw%3D%3D');
+      setTiposIdentificacion(response.data);
+    } catch (error) {
+      console.error('Error al obtener los tipos de identificación:', error);
+    }
+  };
+
+  const fetchGrupoEtnico = async () => {
+    try {
+      const response = await axios.get('https://comunapp-api.azurewebsites.net/api/grupoEtnico?code=jHxnbq4O_ZSg5YZHlAebB4nCtW582vBT2bhqBREk-tG5AzFudUVGNw%3D%3D');
+      setGruposEtnico(response.data);
+    } catch (error) {
+      console.error('Error al obtener los grupos étnicos:', error);
+    }
+  };
+
+  const fetchNivelAcademico = async () => {
+    try {
+      const response = await axios.get('https://comunapp-api.azurewebsites.net/api/nivelAcademico?code=jHxnbq4O_ZSg5YZHlAebB4nCtW582vBT2bhqBREk-tG5AzFudUVGNw%3D%3D');
+      setNivelAcademico(response.data);
+    } catch (error) {
+      console.error('Error al obtener los niveles academicos:', error);
+    }
+  };
+
+  const fetchCargo = async () => {
+    try {
+      const response = await axios.get('https://comunapp-api.azurewebsites.net/api/cargo?code=jHxnbq4O_ZSg5YZHlAebB4nCtW582vBT2bhqBREk-tG5AzFudUVGNw%3D%3D');
+      setCargo(response.data);
+    } catch (error) {
+      console.error('Error al obtener los cargos:', error);
+    }
+  };
+
+  useEffect(() => {
+    if(open) {
+      fetchCargo();
+    }
+  })
+
+  useEffect(() => {
+    if(open) {
+      fetchNivelAcademico();
+    }
+  })
+
+  useEffect(() => {
+    if(open) {
+      fetchGrupoEtnico();
+    }
+  })
+
+  useEffect(() => {
+    if (open) {
+      fetchTiposIdentificacion();
+    }
+  }, [open]);
+
   return (
     <Modal
       open={open}
@@ -95,11 +166,15 @@ const ModalMessage: React.FC<ModalMessageProps> = ({ open, onClose }) => {
           <div style={{ flex: 1 }}>
             <Typography>Tipo de Documento*</Typography>
             <select style={{ width: '100%' }}>
-              <option value="0">Cédula de ciudadanía</option>
-              <option value="1">Cédula de extranjería</option>
-              <option value="2">Pasaporte</option>
-              <option value="3">Tarjeta de identidad</option>
-              <option value="4">Registro civil</option>
+              {tiposIdentificacion.length > 0 ? (
+                tiposIdentificacion.map((tipo) => (
+                  <option key={tipo.id} value={tipo.id}>
+                    {tipo.descripcion}
+                  </option>
+                ))
+              ) : (
+                <option>Cargando tipos de documento...</option>
+              )}
             </select>
           </div>
           <div style={{ flex: 1 }}>
@@ -121,10 +196,15 @@ const ModalMessage: React.FC<ModalMessageProps> = ({ open, onClose }) => {
           <div style={{ flex: 1 }}>
             <Typography>Grupo étnico</Typography>
             <select style={{ width: '100%' }}>
-              <option value="0">Indígenas</option>
-              <option value="1">Afrocolombianos</option>
-              <option value="2">Raizales del archipiélago de San Andrés</option>
-              <option value="3">Rom o gitano</option>
+            {gruposEtnico.length > 0 ? (
+                gruposEtnico.map((tipo) => (
+                  <option key={tipo.id} value={tipo.id}>
+                    {tipo.descripcion}
+                  </option>
+                ))
+              ) : (
+                <option>Cargando grupos étnicos...</option>
+              )}
             </select>
           </div>
         </div>
@@ -139,17 +219,29 @@ const ModalMessage: React.FC<ModalMessageProps> = ({ open, onClose }) => {
           <div style={{ flex: 1 }}>
             <Typography>Cargo*</Typography>
             <select style={{ width: '100%' }}>
-              <option value="0">Presidente</option>
-              <option value="1">Fiscal</option>
-              <option value="2">Secretario</option>
+            {cargo.length > 0 ? (
+                cargo.map((tipo) => (
+                  <option key={tipo.id} value={tipo.id}>
+                    {tipo.descripcion}
+                  </option>
+                ))
+              ) : (
+                <option>Cargando cargos...</option>
+              )}
             </select>
           </div>
           <div style={{ flex: 1 }}>
             <Typography>Nivel académico</Typography>
             <select style={{ width: '100%' }}>
-              <option value="0">Primaria</option>
-              <option value="1">Bachiller</option>
-              <option value="2">Profesional</option>
+            {nivelAcademico.length > 0 ? (
+                nivelAcademico.map((tipo) => (
+                  <option key={tipo.id} value={tipo.id}>
+                    {tipo.descripcion}
+                  </option>
+                ))
+              ) : (
+                <option>Cargando niveles academicos...</option>
+              )}
             </select>
           </div>
         </div>
