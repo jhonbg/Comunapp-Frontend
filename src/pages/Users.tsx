@@ -4,28 +4,49 @@ import React, { useState, useEffect } from 'react';
 import ModalMessage from './components/Modal';
 
 interface User {
-  id: number;
-  nombre: string;
-  apellido: string;
-  direccion: string;
-  rol: string;
-  fechaNacimiento: string;
-  telefono: string;
-  email: string;
+  id: 1,
+  nombres: string,
+  apellidos: string,
+  tipoIdentificacion: 1,
+  identificacion: string,
+  correo: string,
+  direccion: string,
+  celular: string,
+  telefono: string,
+  idCargo: 0,
+  fechaNacimiento: string,
+  fechaInicioResidencia: string,
+  discapacidad: false,
+  idGrupoEtnico: 2,
+  lgtbiq: boolean,
+  idNivelAcademico: 4,
+  estado: string
+
 }
 
 const Users: React.FC = () => {
   const [openModalPedido, setOpenModalPedido] = useState(false);
   const [users, setUsers] = useState<User[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  const mockUsers: User[] = [
-    { id: 1, nombre: 'Juan', apellido: 'Pérez', direccion: 'Calle Falsa 123', rol: 'Administrador', fechaNacimiento: '1985-05-10', telefono: '555-1234', email: 'juan.perez@example.com' },
-    { id: 2, nombre: 'Ana', apellido: 'Gómez', direccion: 'Av. Siempre Viva 742', rol: 'Usuario', fechaNacimiento: '1990-07-20', telefono: '555-5678', email: 'ana.gomez@example.com' },
-    { id: 3, nombre: 'Luis', apellido: 'Martínez', direccion: 'Calle 8', rol: 'Moderador', fechaNacimiento: '1983-09-15', telefono: '555-8765', email: 'luis.martinez@example.com' }
-  ];
+  const API_URL = 'https://comunapp-api.azurewebsites.net/api/persona?code=jHxnbq4O_ZSg5YZHlAebB4nCtW582vBT2bhqBREk-tG5AzFudUVGNw%3D%3D';
 
   useEffect(() => {
-    setUsers(mockUsers);
+    const fetchUsers = async () => {
+      try {
+        const response = await fetch(API_URL);
+        if (!response.ok) {
+          throw new Error(`Error al obtener los datos: ${response.statusText}`);
+        }
+        const data = await response.json();
+        setUsers(data);
+        setLoading(false);
+      } catch (err) {
+        setLoading(false);
+      }
+    };
+
+    fetchUsers();
   }, []);
 
   const handleOpenModal = () => {
@@ -35,6 +56,10 @@ const Users: React.FC = () => {
   const handleCloseModal = () => {
     setOpenModalPedido(false);
   };
+
+  if (loading) {
+    return <div>Cargando...</div>;
+  }
 
   return (
     <div>
@@ -113,13 +138,13 @@ const Users: React.FC = () => {
                     <TableBody>
                       {users.map((user) => (
                         <TableRow key={user.id}>
-                          <TableCell>{user.nombre}</TableCell>
-                          <TableCell>{user.apellido}</TableCell>
+                          <TableCell>{user.nombres}</TableCell>
+                          <TableCell>{user.apellidos}</TableCell>
                           <TableCell>{user.direccion}</TableCell>
-                          <TableCell>{user.rol}</TableCell>
+                          <TableCell>{user.idCargo}</TableCell>
                           <TableCell>{user.fechaNacimiento}</TableCell>
                           <TableCell>{user.telefono}</TableCell>
-                          <TableCell>{user.email}</TableCell>
+                          <TableCell>{user.correo}</TableCell>
                         </TableRow>
                       ))}
                     </TableBody>
