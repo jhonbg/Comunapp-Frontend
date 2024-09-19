@@ -17,8 +17,8 @@ const LoginForm: React.FC = () => {
         "usuario": username,
         "clave": password
       }
-      const response = await axios.post('https://comunapp-api.azurewebsites.net/api/login', jsonLogin);
-      if(response.data)
+      const response = await axios.post('https://comunapp-api.azurewebsites.net/api/login?code=jHxnbq4O_ZSg5YZHlAebB4nCtW582vBT2bhqBREk-tG5AzFudUVGNw%3D%3D', jsonLogin);
+      if(response.data == "true")
         {
           navigate('/Users')
         }
