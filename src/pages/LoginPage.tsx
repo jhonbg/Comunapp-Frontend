@@ -2,11 +2,13 @@ import { Container, Typography, TextField, Button, Box, Paper } from '@mui/mater
 import axios from 'axios';
 import React, {useState} from 'react';
 import { useNavigate } from 'react-router-dom';
+import ModalError from './components/ModalError'
 
 const LoginForm: React.FC = () => {
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
@@ -24,9 +26,11 @@ const LoginForm: React.FC = () => {
         }
       else{
         setError('Usuarios o contraseña inválidos')
+        setIsModalOpen(true);
       }
     } catch{
       setError('Error al iniciar sesión. Por Favor inténtalo de nuevo más tarde.')
+      setIsModalOpen(true);
     }
   };
 
@@ -75,6 +79,8 @@ return (
       </Container>
       </Paper>
   </Box>
+
+  <ModalError open={isModalOpen} onClose={() => setIsModalOpen(false)} message={error}/>
 </div> 
 );
 };
