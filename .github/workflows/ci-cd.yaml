@@ -29,9 +29,9 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: 20.x
-      - name: Install Vercel Cli
+      - name: Install Vercel CLI
         run: yarn global add vercel@latest
-      - name: Pull Vercel Enviromental Variables
-        run: vercel pull --yes --token=${{secrets.COMUNAPP_TOKEN_DEV}}
+      - name: Pull Vercel Environment Variables
+        run: vercel pull --yes --token=${{ secrets.COMUNAPP_TOKEN_DEV }}
       - name: Trigger Vercel Deployment
-        run: vercel deploy --no-wait --token=${{ secrets.COMUNAPP_TOKEN_DEV}}
+        run: vercel deploy --no-wait --token=${{ secrets.COMUNAPP_TOKEN_DEV }}
