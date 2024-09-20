@@ -3,6 +3,7 @@ import axios from 'axios';
 import React, {useState} from 'react';
 import { useNavigate } from 'react-router-dom';
 import ModalError from './components/ModalError'
+import Users from './Users'
 
 const LoginForm: React.FC = () => {
 
@@ -11,25 +12,36 @@ const LoginForm: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [error, setError] = useState('');
   const navigate = useNavigate();
+  const [userData, setUserData] = useState(null);
 
   const handleSumit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    try{
+    try {
       const jsonLogin = {
-        "usuario": username,
-        "clave": password
-      }
-      const response = await axios.post('https://comunapp-api.azurewebsites.net/api/login?code=jHxnbq4O_ZSg5YZHlAebB4nCtW582vBT2bhqBREk-tG5AzFudUVGNw%3D%3D', jsonLogin);
-      if(response.data)
-        {
-          navigate('/Users')
-        }
-      else{
-        setError('Usuarios o contraseña inválidos')
+        usuario: username,
+        clave: password,
+      };
+
+      // Endpoint para hacer login
+      const loginResponse = await axios.post(
+        'https://comunapp-api.azurewebsites.net/api/login?code=jHxnbq4O_ZSg5YZHlAebB4nCtW582vBT2bhqBREk-tG5AzFudUVGNw%3D%3D',
+        jsonLogin
+      );
+
+      if (loginResponse.data) {
+        const userResponse = await axios.get(
+          `https://comunapp-api.azurewebsites.net/api/persona?usuario=${username}&code=jHxnbq4O_ZSg5YZHlAebB4nCtW582vBT2bhqBREk-tG5AzFudUVGNw%3D%3D`
+        );
+
+        setUserData(userResponse.data);
+
+        navigate('/Users', { state: { user: userResponse.data } });
+      } else {
+        setError('Usuario o contraseña inválidos');
         setIsModalOpen(true);
       }
-    } catch{
-      setError('Error al iniciar sesión. Por Favor inténtalo de nuevo más tarde.')
+    } catch (error) {
+      setError('Error al iniciar sesión. Por favor, inténtalo de nuevo más tarde.');
       setIsModalOpen(true);
     }
   };
