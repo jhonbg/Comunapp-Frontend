@@ -35,6 +35,7 @@ const ModalMessage: React.FC<ModalMessageProps> = ({ open, onClose }) => {
   const [idGrupoEtnico, setIdGrupoEtnico] = useState<number | undefined>();
   const [lgtbiq, setLgtbiq] = useState(0);
   const [idNivelAcademico, setIdNivelAcademico] = useState<number | undefined>();
+  const [datosCargados, setDatosCargados] = useState(false);
 
   const fetchTiposIdentificacion = async () => {
     try {
@@ -73,13 +74,14 @@ const ModalMessage: React.FC<ModalMessageProps> = ({ open, onClose }) => {
   };
 
   useEffect(() => {
-    if (open) {
+    if (open && !datosCargados) {
       fetchTiposIdentificacion();
       fetchGrupoEtnico();
       fetchNivelAcademico();
       fetchCargo();
+      setDatosCargados(true);
     }
-  }, [open]);
+  }, [open, datosCargados]);
 
   const crearUsuario = async () => {
     const nuevoUsuario = {
@@ -108,7 +110,11 @@ const ModalMessage: React.FC<ModalMessageProps> = ({ open, onClose }) => {
       alert('Usuario creado exitosamente');
       onClose(); 
     } catch (error) {
-      console.error('Error al crear el usuario:', error);
+      if (error instanceof Error) {
+        console.error(error.message);
+      } else {
+        console.error("Unknown error", error);
+      }
     }
   };
 

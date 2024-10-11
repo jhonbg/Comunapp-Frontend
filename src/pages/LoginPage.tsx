@@ -3,7 +3,6 @@ import axios from 'axios';
 import React, {useState} from 'react';
 import { useNavigate } from 'react-router-dom';
 import ModalError from './components/ModalError'
-import Users from './Users'
 
 const LoginForm: React.FC = () => {
 
@@ -22,7 +21,6 @@ const LoginForm: React.FC = () => {
         clave: password,
       };
 
-      // Endpoint para hacer login
       const loginResponse = await axios.post(
         'https://comunapp-api.azurewebsites.net/api/login?code=jHxnbq4O_ZSg5YZHlAebB4nCtW582vBT2bhqBREk-tG5AzFudUVGNw%3D%3D',
         jsonLogin
@@ -63,7 +61,6 @@ return (
           <form onSubmit={handleSumit}>
             <Typography style={{textAlign:'start'}}>Usuario</Typography>
             <TextField
-              label="Usuario"
               variant="outlined"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
@@ -71,7 +68,6 @@ return (
             />
             <Typography style={{textAlign:'start'}}>Contraseña</Typography>
             <TextField
-              label="Contraseña"
               type="password"
               variant="outlined"
               value={password}

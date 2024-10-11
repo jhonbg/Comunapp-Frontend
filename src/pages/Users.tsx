@@ -82,7 +82,7 @@ const Users: React.FC = () => {
           alignItems: 'center',
         }}
       >
-        <Paper elevation={4} style={{ padding: '10px', textAlign: 'center', height:'100vh'}}>
+        <Paper elevation={4} style={{ padding: '10px', textAlign: 'center'}}>
           <Container maxWidth="xl" style={{ flex: "200", width: "100%" }}>
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: "center" }}>
             <AppBar position="static">
@@ -129,7 +129,7 @@ const Users: React.FC = () => {
                 <Typography variant="h5" style={{ marginBottom: '10px' }}>
                   Lista de Usuarios
                 </Typography>
-                <TableContainer component={Paper}>
+                <TableContainer component={Paper} style={{maxHeight: 'auto', overflow: 'auto', maxWidth: '100%'}}>
                   <Table>
                     <TableHead>
                       <TableRow>
