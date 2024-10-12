@@ -1,8 +1,7 @@
-import { AppBar, Toolbar, IconButton, Typography, Box, Button, Container, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
-import MenuIcon from '@mui/icons-material/Menu';
+import { Typography, Box, Button, Container, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import React, { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
 import ModalMessage from './components/Modal';
+import NavBar from './components/NavBar';
 
 interface User {
   id: number;
@@ -25,8 +24,6 @@ interface User {
 }
 
 const Users: React.FC = () => {
-  const location = useLocation();
-  const user = location.state?.user as User;
   const [openModalPedido, setOpenModalPedido] = useState(false);
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(true);
@@ -74,6 +71,7 @@ const Users: React.FC = () => {
 
   return (
     <div>
+      <NavBar/>
       <Box
         sx={{
           display: 'flex',
@@ -85,23 +83,6 @@ const Users: React.FC = () => {
         <Paper elevation={4} style={{ padding: '10px', textAlign: 'center'}}>
           <Container maxWidth="xl" style={{ flex: "200", width: "100%" }}>
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: "center" }}>
-            <AppBar position="static">
-              <Toolbar style={{backgroundColor:'white'}}>
-                <IconButton edge="start" color="inherit" aria-label="menu" sx={{ width: '40px',
-                height: '50px',  
-                borderRadius: '0', 
-                mr: 2, backgroundColor:'gray' }}>
-                  <MenuIcon />
-                </IconButton>
-                <Typography variant="h6" component="div" sx={{ flexGrow: 1, color:'gray', fontWeight: 'bold'}}>
-                  Junta de Acción Comunal Santo Tomás
-                </Typography>
-                <Box display="flex" flexDirection="column" alignItems="flex-end">
-                  <Typography variant="body1" style={{color:'gray'}}>{user.nombres}  {user.apellidos}</Typography>
-                  <Typography variant="body2" style={{color:'gray'}}>{user.idCargo}</Typography>
-                </Box>
-              </Toolbar>
-            </AppBar>
             <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center', width: '100%', margin:'10px'}}>
               <Button
                 variant="contained"
