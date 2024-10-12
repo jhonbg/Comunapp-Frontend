@@ -11,6 +11,7 @@ const LoginForm: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [error, setError] = useState('');
   const navigate = useNavigate();
+  //@ts-ignore
   const [userData, setUserData] = useState(null);
 
   const handleSumit = async (e: React.FormEvent<HTMLFormElement>) => {
