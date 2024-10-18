@@ -1,11 +1,13 @@
 import { useState } from 'react'
 import { IconButton, Box, Icon } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
+import { useNavigate } from 'react-router-dom';
 
 const SideBar = () => {
     const [isHoveredUser, setIsHoveredUser] = useState(false);
     const [isHoveredViviendas, setIsHoveredViviendas] = useState(false);
     const [open, setOpen] = useState(false)
+    const navigate = useNavigate();
 
     const toggleSidebar = () => setOpen(!open);
 
@@ -32,7 +34,7 @@ const SideBar = () => {
                 backgroundColor: 'rgba(0,0,0,0.5)',
                 backdropFilter: 'blur(5px)',
                 zIndex: 1000
-            }}></Box>
+            }} onClick={toggleSidebar}></Box>
 
             <Box
                 sx={{
@@ -45,8 +47,6 @@ const SideBar = () => {
                 boxShadow: 2,
                 zIndex: 1200,
                 overflowY: 'auto',
-                transform: open ? 'translateX(0)' : 'translateX(-100%)',
-                transition: 'transform 10s ease'
                 }}
             >
                 <div>
@@ -65,6 +65,7 @@ const SideBar = () => {
                         alignItems: 'center'
                     }}>
                         <div
+                            onClick={()=>navigate('/Users')}
                             style={{
                                 color: isHoveredUser ? '#1E90FF' : 'black',
                                 transition: 'color 0.3s ease',
@@ -79,13 +80,13 @@ const SideBar = () => {
                             </Icon>
                             User
                         </div>
-                        <div
+                        <div onClick={()=>navigate('/Housing')}
                             style={{
                                 color: isHoveredViviendas ? '#1E90FF' : 'black',
                                 transition: 'color 0.3s ease',
                                 }}
-                                onMouseEnter={() => setIsHoveredViviendas(true)}
-                                onMouseLeave={() => setIsHoveredViviendas(false)}
+                            onMouseEnter={() => setIsHoveredViviendas(true)}
+                            onMouseLeave={() => setIsHoveredViviendas(false)}
                         >
                             <Icon style={{paddingRight:'2%'}}>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" d="M12 3L2 12h3v8h14v-8h3zm0 5.75A2.25 2.25 0 0 1 14.25 11A2.25 2.25 0 0 1 12 13.25A2.25 2.25 0 0 1 9.75 11A2.25 2.25 0 0 1 12 8.75M12 15c1.5 0 4.5.75 4.5 2.25V18h-9v-.75c0-1.5 3-2.25 4.5-2.25"/></svg>

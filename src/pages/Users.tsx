@@ -1,6 +1,8 @@
 import { Typography, Box, Button, Container, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import React, { useState, useEffect } from 'react';
-import ModalMessage from './components/Modal';
+import Modal from './components/Modal';
+import SelectHousing from './components/SelectHousing';
+import ModalError from './components/ModalError'
 import NavBar from './components/NavBar';
 
 interface User {
@@ -25,9 +27,13 @@ interface User {
 
 const Users: React.FC = () => {
   const [openModalPedido, setOpenModalPedido] = useState(false);
+  const [OpenModalHousing, setOpenModalHousing] = useState(false);
+  const [openMessageModal, setOpenMessageModal] = useState(false);
+  const [message, setMessage] = useState('');
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
+  const [selectedUsers, setSelectedUsers] = useState<number | null>(null);
 
   const API_URL = 'https://comunapp-api.azurewebsites.net/api/persona?code=jHxnbq4O_ZSg5YZHlAebB4nCtW582vBT2bhqBREk-tG5AzFudUVGNw%3D%3D';
 
@@ -61,6 +67,18 @@ const Users: React.FC = () => {
     setOpenModalPedido(false);
   };
 
+  const handleCloseModalHousing = () => {
+    setOpenModalHousing(false);
+  };
+
+  const handleCloseMessageModal = () => {
+    setOpenMessageModal(false);
+  };
+
+  const handleRowClick = (id: number) => {
+    setSelectedUsers(id === selectedUsers ? null : id);
+};
+
   if (loading) {
     return <div>Cargando...</div>;
   }
@@ -68,6 +86,15 @@ const Users: React.FC = () => {
   const filteredUsers = users.filter(user =>
     user.identificacion.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  const handleAssignHousing = () => {
+    if (selectedUsers === null) {
+      setMessage('Por favor, seleccione un usuario para asignar o actualizar la vivienda.');
+      setOpenMessageModal(true);
+    } else {
+      setOpenModalHousing(true);
+    }
+  };
 
   return (
     <div>
@@ -105,6 +132,16 @@ const Users: React.FC = () => {
                   placeholder="Ingrese documento"
                 />
               </div>
+              <Button
+                variant="contained"
+                style={{
+                  backgroundColor: 'darkgray',
+                  color: 'black',
+                }}
+                onClick={handleAssignHousing}
+              >
+                Asignar/Actualizar Vivienda
+              </Button>
             </div>
               <Container maxWidth="lg" style={{ marginTop: '20px' }}>
                 <Typography variant="h5" style={{ marginBottom: '10px' }}>
@@ -125,7 +162,14 @@ const Users: React.FC = () => {
                     </TableHead>
                     <TableBody>
                       {filteredUsers.map((user) => (
-                        <TableRow key={user.id}>
+                        <TableRow 
+                        key={user.id}
+                        onClick={() => handleRowClick(user.id)}
+                        style={{
+                          cursor: 'pointer',
+                          backgroundColor: selectedUsers === user.id ? '#e0e0e0' : 'transparent'
+                        }}
+                        >
                           <TableCell>{user.nombres}</TableCell>
                           <TableCell>{user.apellidos}</TableCell>
                           <TableCell>{user.direccion}</TableCell>
@@ -143,7 +187,9 @@ const Users: React.FC = () => {
           </Container>
         </Paper>
       </Box>
-      <ModalMessage open={openModalPedido} onClose={handleCloseModal} />
+      <Modal open={openModalPedido} onClose={handleCloseModal} />
+      <SelectHousing open={OpenModalHousing} onClose={handleCloseModalHousing} idUsuario={selectedUsers}/>
+      <ModalError open={openMessageModal} onClose={handleCloseMessageModal} message={message} />
     </div>
   );
 };

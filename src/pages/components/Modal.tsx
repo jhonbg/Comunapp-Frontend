@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, Dispatch, SetStateAction } from 'react';
 import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -15,26 +15,26 @@ interface ModalMessageProps {
   onClose: () => void;
 }
 
-const ModalMessage: React.FC<ModalMessageProps> = ({ open, onClose }) => {
+  const ModalMessage: React.FC<ModalMessageProps> = ({ open, onClose }) => {
   const [tiposIdentificacion, setTiposIdentificacion] = useState<TipoSelect[]>([]);
   const [gruposEtnico, setGruposEtnico] = useState<TipoSelect[]>([]);
   const [nivelAcademico, setNivelAcademico] = useState<TipoSelect[]>([]);
   const [cargo, setCargo] = useState<TipoSelect[]>([]);
   const [nombres, setNombres] = useState('');
   const [apellidos, setApellidos] = useState('');
-  const [tipoIdentificacion, setTipoIdentificacion] = useState<number | undefined>();
+  const [tipoIdentificacion, setTipoIdentificacion] = useState<number | undefined>(tiposIdentificacion[0]?.id);
+  const [idGrupoEtnico, setIdGrupoEtnico] = useState<number | undefined>(gruposEtnico[0]?.id);
   const [identificacion, setIdentificacion] = useState('');
   const [correo, setCorreo] = useState('');
   const [direccion, setDireccion] = useState('');
   const [celular, setCelular] = useState('');
   const [telefono, setTelefono] = useState('');
-  const [idCargo, setIdCargo] = useState<number | undefined>();
+  const [idCargo, setIdCargo] = useState<number | undefined>(cargo[0]?.id);
   const [fechaNacimiento, setFechaNacimiento] = useState('');
   const [fechaInicioResidencia, setFechaInicioResidencia] = useState('');
   const [discapacidad, setDiscapacidad] = useState(0);
-  const [idGrupoEtnico, setIdGrupoEtnico] = useState<number | undefined>();
   const [lgtbiq, setLgtbiq] = useState(0);
-  const [idNivelAcademico, setIdNivelAcademico] = useState<number | undefined>();
+  const [idNivelAcademico, setIdNivelAcademico] = useState<number | undefined>(nivelAcademico[0]?.id);
   const [datosCargados, setDatosCargados] = useState(false);
 
   const fetchTiposIdentificacion = async () => {
@@ -83,6 +83,20 @@ const ModalMessage: React.FC<ModalMessageProps> = ({ open, onClose }) => {
     }
   }, [open, datosCargados]);
 
+  useEffect(() => {
+    if (tiposIdentificacion.length > 0) {
+      setTipoIdentificacion(tiposIdentificacion[0].id);
+    }
+    if (gruposEtnico.length > 0) {
+      setIdGrupoEtnico(gruposEtnico[0].id);
+    }
+    if (nivelAcademico.length > 0) {
+      setIdNivelAcademico(nivelAcademico[0].id);
+    }
+    if (cargo.length > 0) {
+      setIdCargo(cargo[0].id);
+    }
+  }, [tiposIdentificacion, gruposEtnico, nivelAcademico, cargo]);
   const crearUsuario = async () => {
     const nuevoUsuario = {
       nombres,
@@ -103,12 +117,10 @@ const ModalMessage: React.FC<ModalMessageProps> = ({ open, onClose }) => {
       estado: "A",
     };
 
-    console.log('Nuevo Usuario:', nuevoUsuario, idNivelAcademico, tipoIdentificacion);
-
     try {
-      await axios.post('https://comunapp-api.azurewebsites.net/api/agregarPersona?code=BZhf5gf0vsQHCDHoV2NtGPfN--xNwA_r31YxQPHiBCu5AzFuDu8RQQ%3D%3D', nuevoUsuario);
+      await axios.post('https://comunapp-api.azurewebsites.net/api/persona?code=PlV7W7OwScg_SXH3zVXNUZiQod6S3K1womavfkDhWYOlAzFuPS0iZg%3D%3D', nuevoUsuario);
       alert('Usuario creado exitosamente');
-      onClose(); 
+      onClose();
     } catch (error) {
       if (error instanceof Error) {
         console.error(error.message);
@@ -116,6 +128,29 @@ const ModalMessage: React.FC<ModalMessageProps> = ({ open, onClose }) => {
         console.error("Unknown error", error);
       }
     }
+  };
+
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, 
+    setter: Dispatch<SetStateAction<string>>
+  ) => {
+    const value = e.target.value;
+    const formattedValue = value.replace(/\d/g, '').toUpperCase();
+    setter(formattedValue);
+  };
+
+  const handleNumberChange = (e: React.ChangeEvent<HTMLInputElement>, setter: Dispatch<SetStateAction<string>>) => {
+    const value = e.target.value;
+    const numericValue = value.replace(/\D/g, '');
+  
+    if (numericValue.length <= 10) { 
+      setter(numericValue);
+    }
+  };
+
+  const handleTextoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const upperCaseValue = e.target.value.toUpperCase();
+    setDireccion(upperCaseValue);
   };
 
   return (
@@ -153,11 +188,11 @@ const ModalMessage: React.FC<ModalMessageProps> = ({ open, onClose }) => {
         <div style={{ display: 'flex', gap: '16px' }}>
           <div style={{ flex: 1 }}>
             <Typography>Nombre/es*</Typography>
-            <input type="text" style={{ width: '100%' }} value={nombres} onChange={(e) => setNombres(e.target.value)} />
+            <input type="text" style={{ width: '100%' }} value={nombres} onChange={(e) => handleInputChange(e, setNombres)} />
           </div>
           <div style={{ flex: 1 }}>
             <Typography>Apellidos*</Typography>
-            <input type="text" style={{ width: '100%' }} value={apellidos} onChange={(e) => setApellidos(e.target.value)} />
+            <input type="text" style={{ width: '100%' }} value={apellidos} onChange={(e) => handleInputChange(e, setApellidos)} />
           </div>
         </div>
 
@@ -178,7 +213,7 @@ const ModalMessage: React.FC<ModalMessageProps> = ({ open, onClose }) => {
           </div>
           <div style={{ flex: 1 }}>
             <Typography>Documento*</Typography>
-            <input type="text" style={{ width: '100%' }} value={identificacion} onChange={(e) => setIdentificacion(e.target.value)} />
+            <input type="text" style={{ width: '100%' }} value={identificacion} onChange={(e) => handleNumberChange(e, setIdentificacion)} />
           </div>
           <div style={{ flex: 1 }}>
             <Typography>Email*</Typography>
@@ -188,7 +223,7 @@ const ModalMessage: React.FC<ModalMessageProps> = ({ open, onClose }) => {
         <div style={{ display: 'flex', gap: '16px' }}>
           <div style={{ flex: 1 }}>
             <Typography>Dirección</Typography>
-            <input type="text" style={{ width: '100%' }} value={direccion} onChange={(e) => setDireccion(e.target.value)} />
+            <input type="text" style={{ width: '100%' }} value={direccion} onChange={(e) => handleTextoChange(e)} />
           </div>
           <div style={{ flex: 1 }}>
             <Typography>Grupo étnico</Typography>
@@ -212,7 +247,7 @@ const ModalMessage: React.FC<ModalMessageProps> = ({ open, onClose }) => {
           </div>
           <div style={{ flex: 1 }}>
             <Typography>Celular</Typography>
-            <input type="text" style={{ width: '100%' }} value={celular} onChange={(e) => setCelular(e.target.value)} />
+            <input type="text" style={{ width: '100%' }} value={celular} onChange={(e) => handleNumberChange(e, setCelular)} />
           </div>
         </div>
         <div style={{ display: 'flex', gap: '16px' }}>

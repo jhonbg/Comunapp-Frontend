@@ -1,8 +1,9 @@
-import { AppBar, Toolbar, IconButton, Typography, Box, Button, Container, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
-import MenuIcon from '@mui/icons-material/Menu';
+import {Typography, Box, Button, Container, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import ModalMessage from './components/Modal';
+import ModalHousing from './components/ModalHousing';
+import NavBar from './components/NavBar';
+import axios from 'axios';
 
 interface Vivienda {
   id: number;
@@ -51,6 +52,34 @@ const housingpage: React.FC = () => {
     setOpenModalPedido(false);
   };
 
+  const refetchViviendas = async () => {
+    try {
+      const response = await fetch(API_URL);
+      if (!response.ok) {
+        throw new Error(`Error al obtener los datos: ${response.statusText}`);
+      }
+      const data = await response.json();
+      setViviendas(data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleAddVivienda = async (nuevaVivienda: { direccion: string; fechaCreacion: string; codigoUsuarioCrea: string }) => {
+    try {
+      await axios.post('https://comunapp-api.azurewebsites.net/api/vivienda?code=jHxnbq4O_ZSg5YZHlAebB4nCtW582vBT2bhqBREk-tG5AzFudUVGNw%3D%3D', nuevaVivienda);
+      alert('Vivienda creada exitosamente');
+      await refetchViviendas(); 
+      handleCloseModal();
+    } catch (error) {
+      if (error instanceof Error) {
+        console.error(error.message);
+      } else {
+        console.error("Unknown error", error);
+      }
+    }
+  };
+
   if (loading) {
     return <div>Cargando...</div>;
   }
@@ -61,6 +90,7 @@ const housingpage: React.FC = () => {
 
   return (
     <div>
+      <NavBar/>
       <Box
         sx={{
           display: 'flex',
@@ -72,20 +102,6 @@ const housingpage: React.FC = () => {
         <Paper elevation={4} style={{ padding: '10px', textAlign: 'center' }}>
           <Container maxWidth="xl" style={{ flex: "200", width: "100%" }}>
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: "center" }}>
-              <AppBar position="static">
-                <Toolbar style={{ backgroundColor: 'white' }}>
-                  <IconButton edge="start" color="inherit" aria-label="menu" sx={{ width: '40px', height: '50px', borderRadius: '0', mr: 2, backgroundColor: 'gray' }}>
-                    <MenuIcon />
-                  </IconButton>
-                  <Typography variant="h6" component="div" sx={{ flexGrow: 1, color: 'gray', fontWeight: 'bold' }}>
-                    Junta de Acción Comunal Santo Tomás
-                  </Typography>
-                  <Box display="flex" flexDirection="column" alignItems="flex-end">
-                    <Typography variant="body1" style={{ color: 'gray' }}>{user?.nombres} {user?.apellidos}</Typography>
-                    <Typography variant="body2" style={{ color: 'gray' }}>{user?.idCargo}</Typography>
-                  </Box>
-                </Toolbar>
-              </AppBar>
               <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center', width: '100%', margin: '10px' }}>
                 <Button
                   variant="contained"
@@ -140,7 +156,7 @@ const housingpage: React.FC = () => {
           </Container>
         </Paper>
       </Box>
-      <ModalMessage open={openModalPedido} onClose={handleCloseModal} />
+      <ModalHousing open={openModalPedido} onClose={handleCloseModal} onAddVivienda={handleAddVivienda}/>
     </div>
   );
 };

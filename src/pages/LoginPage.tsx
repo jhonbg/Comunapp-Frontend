@@ -3,6 +3,7 @@ import axios from 'axios';
 import React, {useState} from 'react';
 import { useNavigate } from 'react-router-dom';
 import ModalError from './components/ModalError'
+import { useUser } from '../UserContext';
 
 const LoginForm: React.FC = () => {
 
@@ -11,8 +12,8 @@ const LoginForm: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [error, setError] = useState('');
   const navigate = useNavigate();
-  //@ts-ignore
-  const [userData, setUserData] = useState(null);
+  const { setUser } = useUser();
+
 
   const handleSumit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -32,9 +33,13 @@ const LoginForm: React.FC = () => {
           `https://comunapp-api.azurewebsites.net/api/persona?usuario=${username}&code=jHxnbq4O_ZSg5YZHlAebB4nCtW582vBT2bhqBREk-tG5AzFudUVGNw%3D%3D`
         );
 
-        setUserData(userResponse.data);
+        const userData = {
+          ...userResponse.data,
+          name:username
+        }
 
-        navigate('/Users', { state: { user: userResponse.data } });
+        setUser(userData);
+        navigate('/Users');
       } else {
         setError('Usuario o contraseña inválidos');
         setIsModalOpen(true);
