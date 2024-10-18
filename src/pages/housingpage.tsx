@@ -14,7 +14,7 @@ interface Vivienda {
 
 const housingpage: React.FC = () => {
   const location = useLocation();
-  const user = location.state?.user;
+  location.state?.user;
   const [openModalPedido, setOpenModalPedido] = useState(false);
   const [viviendas, setViviendas] = useState<Vivienda[]>([]);
   const [loading, setLoading] = useState(true);
