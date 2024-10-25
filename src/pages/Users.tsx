@@ -1,5 +1,6 @@
-import { Typography, Box, Button, Container, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
+import { Typography, Box, Button, Container, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from '@mui/material';
 import React, { useState, useEffect } from 'react';
+import ModalEditUser from './components/ModalEditUser'
 import Modal from './components/Modal';
 import SelectHousing from './components/SelectHousing';
 import ModalError from './components/ModalError'
@@ -26,6 +27,8 @@ interface User {
 }
 
 const Users: React.FC = () => {
+  const [openEditModal, setOpenEditModal] = useState(false);
+  const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const [openModalPedido, setOpenModalPedido] = useState(false);
   const [OpenModalHousing, setOpenModalHousing] = useState(false);
   const [openMessageModal, setOpenMessageModal] = useState(false);
@@ -77,7 +80,17 @@ const Users: React.FC = () => {
 
   const handleRowClick = (id: number) => {
     setSelectedUsers(id === selectedUsers ? null : id);
-};
+  };
+
+  const handleOpenEditModal = (user: User) => {
+    setSelectedUser(user);
+    setOpenEditModal(true);
+  };
+
+  const handleCloseEditModal = () => {
+    setOpenEditModal(false); 
+    setSelectedUser(null);
+  };
 
   if (loading) {
     return <div>Cargando...</div>;
@@ -158,6 +171,7 @@ const Users: React.FC = () => {
                         <TableCell>Fecha de Nacimiento</TableCell>
                         <TableCell>Teléfono</TableCell>
                         <TableCell>Email</TableCell>
+                        <TableCell>Editar</TableCell>
                       </TableRow>
                     </TableHead>
                     <TableBody>
@@ -166,8 +180,8 @@ const Users: React.FC = () => {
                         key={user.id}
                         onClick={() => handleRowClick(user.id)}
                         style={{
-                          cursor: 'pointer',
-                          backgroundColor: selectedUsers === user.id ? '#e0e0e0' : 'transparent'
+                            cursor: 'pointer',
+                            backgroundColor: selectedUsers === user.id ? '#e0e0e0' : 'transparent'
                         }}
                         >
                           <TableCell>{user.nombres}</TableCell>
@@ -177,6 +191,7 @@ const Users: React.FC = () => {
                           <TableCell>{user.fechaNacimiento}</TableCell>
                           <TableCell>{user.telefono}</TableCell>
                           <TableCell>{user.correo}</TableCell>
+                          <TableCell><button onClick={() => handleOpenEditModal(user)}>Editar</button></TableCell>
                         </TableRow>
                       ))}
                     </TableBody>
@@ -190,6 +205,7 @@ const Users: React.FC = () => {
       <Modal open={openModalPedido} onClose={handleCloseModal} />
       <SelectHousing open={OpenModalHousing} onClose={handleCloseModalHousing} idUsuario={selectedUsers}/>
       <ModalError open={openMessageModal} onClose={handleCloseMessageModal} message={message} />
+      <ModalEditUser open={openEditModal} onClose={handleCloseEditModal} user={selectedUser}/>
     </div>
   );
 };

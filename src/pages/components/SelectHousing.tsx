@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import Modal from '@mui/material/Modal';
-import {Typography, Box, Button, Container, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
+import { Typography, Box, Button, Container, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Tooltip  } from '@mui/material';
 import axios from 'axios';
 
 interface ModalHousingProps {
@@ -58,17 +58,17 @@ interface Vivienda {
             alert('Usuario asignado a vivienda')
             onClose();
           } catch (error) {
-            console.log("error",idUsuario,selectedViviendaId)
+            alert("No se selecciono vivienda")
           }
     };
 
     return (
-        <Modal
+    <Modal
         open={open}
         onClose={onClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
-        >
+    >
         <Box sx={{
             position: 'absolute',
             top: '50%',
@@ -138,7 +138,7 @@ interface Vivienda {
                 </Container>
             </div>
         </Box>
-        </Modal>
+    </Modal>
     );
 };
 
