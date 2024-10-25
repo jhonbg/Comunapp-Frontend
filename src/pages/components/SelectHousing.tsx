@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import Modal from '@mui/material/Modal';
-import { Typography, Box, Button, Container, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Tooltip  } from '@mui/material';
+import { Typography, Box, Button, Container, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import axios from 'axios';
 
 interface ModalHousingProps {
