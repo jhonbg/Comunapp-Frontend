@@ -152,12 +152,21 @@ const ModalHousing: React.FC<ModalHousingProps> = ({ open, onClose, onAddViviend
           <input
             type="text"
             placeholder="Buscar dirección..."
-            className="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            className="w-full p-3 border"
             value={direccion}
             onChange={(e) => setDireccion(e.target.value)}
           />
         </Autocomplete>
-        <Button variant="outlined" onClick={handleBuscarLugar} sx={{ mb: 2 }}>
+        <Button variant="outlined" onClick={handleBuscarLugar} sx={{ mb: 2, border:'1px solid #A7f3D0', color:'#A7f3D0'}}
+          onMouseEnter={(e) => {
+                  const target = e.target as HTMLButtonElement;
+                  target.style.backgroundColor = 'rgb(22, 163, 74)';
+                }}
+                onMouseLeave={(e) => {
+                  const target = e.target as HTMLButtonElement;
+                  target.style.border = '1px solid #A7f3D0';
+                  target.style.backgroundColor = 'white';
+                }}>
           Buscar lugar
         </Button>
         <GoogleMap
@@ -181,6 +190,7 @@ const ModalHousing: React.FC<ModalHousingProps> = ({ open, onClose, onAddViviend
           variant="contained"
           onClick={handleCrearVivienda}
           disabled={!direccion || !selectedPosition}
+          style={{backgroundColor:'rgb(22, 163, 74)', color:'white'}}
         >
           Crear Vivienda
         </Button>

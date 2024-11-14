@@ -16,8 +16,7 @@ const SideBar = () => {
         <IconButton edge="start" color="inherit" aria-label="menu"sx={{ width: '40px',
             height: '50px',  
             borderRadius: '0', 
-            mr: 2, 
-            backgroundColor:'gray'
+            mr: 2
             }}
             onClick={toggleSidebar}
             >

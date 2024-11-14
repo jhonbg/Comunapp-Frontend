@@ -2,6 +2,7 @@ import React, {useState ,useEffect }from 'react'
 import { AppBar, Toolbar, Typography, Box } from '@mui/material';
 import SideBar from './SideBar';
 import { useUser } from '../../UserContext';
+import { green } from '@mui/material/colors';
   
 interface Cargo {
   id: number;
@@ -36,25 +37,25 @@ const NavBar: React.FC =() => {
       return cargo ? cargo.descripcion : 'Desconocido';
     };
     return (
-    <div>
+    <div >
       <AppBar>
-        <Toolbar style={{backgroundColor:'white'}}>
+        <Toolbar style={{backgroundColor:'#16A34A'}}>
           <SideBar/>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1, color:'gray', fontWeight: 'bold'}}>
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1, color:'white', fontWeight: 'bold'}}>
             Junta de Acción Comunal Santo Tomás
           </Typography>
           <Box display="flex" flexDirection="column" alignItems="flex-end">
           {user ? (
               <>
-                <Typography variant="body1" style={{ color: 'gray' }}>
+                <Typography variant="body1" style={{ color: 'white' }}>
                   {user.nombres} {user.apellidos}
                 </Typography>
-                <Typography variant="body2" style={{ color: 'gray' }}>
+                <Typography variant="body2" style={{ color: 'white' }}>
                   {getCargoDescription(user.idCargo)}
                 </Typography>
               </>
             ) : (
-              <Typography variant="body1" style={{ color: 'gray' }}>
+              <Typography variant="body1" style={{ color: 'white' }}>
                 Usuario no autenticado
               </Typography>
             )}

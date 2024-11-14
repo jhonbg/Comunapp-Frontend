@@ -28,3 +28,10 @@
   .pac-matched {
     font-weight: 600;
   }
+body {
+  height: 100%;
+  margin: 0;
+  background: linear-gradient(to bottom right, #BBDEFB, #C8E6C9);
+  background-size: cover;
+  background-position: center;
+}

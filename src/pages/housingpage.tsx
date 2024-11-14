@@ -4,6 +4,7 @@ import { useLocation } from 'react-router-dom';
 import ModalHousing from './components/ModalHousing';
 import NavBar from './components/NavBar';
 import axios from 'axios';
+import { HousePlus } from 'lucide-react'
 
 interface Vivienda {
   id: number;
@@ -90,37 +91,63 @@ const housingpage: React.FC = () => {
       <Box
         sx={{
           display: 'flex',
-          flexWrap: 'wrap',
+          flexDirection: 'column',
           justifyContent: 'center',
           alignItems: 'center',
+          gap: 2,
+          height: '100vh',
+          padding: 2,
         }}
       >
-        <Paper elevation={4} style={{ padding: '10px', textAlign: 'center' }}>
+        <Paper elevation={4}
+          sx={{
+            width: '100%',
+            maxWidth: '1200px',
+            padding: 2,
+            textAlign: 'center',
+          }}
+        >
+          <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center', width: '100%', margin: '10px' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', width: '40%' }}>
+              <Typography style={{ marginBottom: '5px', fontWeight: 'bold', fontSize: '1.5rem'}}>Buscar Por Dirección</Typography>
+                <input
+                  type="text"
+                  style={{ width: '100%', padding: '10px', boxSizing: 'border-box' }}
+                  value={searchTerm}
+                  onChange={handleSearchChange}
+                  placeholder="Ingrese dirección"
+              />
+            </div>
+            <Button
+              variant="contained"
+              style={{
+                background: 'rgb(34, 197, 94)',
+              }}
+              onMouseEnter={(e) => {
+                const target = e.target as HTMLButtonElement;
+                target.style.backgroundColor = 'rgb(22, 163, 74)';
+              }}
+              onMouseLeave={(e) => {
+                const target = e.target as HTMLButtonElement;
+                target.style.backgroundColor = 'rgb(34, 197, 94)';
+             }}
+             onClick={handleOpenModal}
+            >
+              <HousePlus style={{marginRight:'4px'}} size={18}/>
+                Crear
+            </Button>
+          </div>
+        </Paper>
+        <Paper elevation={4}
+          sx={{
+            width: '100%',
+            maxWidth: '1200px',
+            padding: 2,
+            textAlign: 'center',
+          }}
+        >
           <Container maxWidth="xl" style={{ flex: "200", width: "100%" }}>
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: "center" }}>
-              <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center', width: '100%', margin: '10px' }}>
-                <Button
-                  variant="contained"
-                  style={{
-                    backgroundColor: 'darkgray',
-                    color: 'black',
-                  }}
-                  onClick={handleOpenModal}
-                >
-                  Crear
-                </Button>
-
-                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '40%' }}>
-                  <Typography style={{ marginBottom: '5px' }}>Buscar Por Dirección</Typography>
-                  <input
-                    type="text"
-                    style={{ width: '100%', padding: '10px', boxSizing: 'border-box' }}
-                    value={searchTerm}
-                    onChange={handleSearchChange}
-                    placeholder="Ingrese dirección"
-                  />
-                </div>
-              </div>
               <Container maxWidth="lg" style={{ marginTop: '20px' }}>
                 <Typography variant="h5" style={{ marginBottom: '10px' }}>
                   Lista de Viviendas
@@ -130,10 +157,10 @@ const housingpage: React.FC = () => {
                   <Table>
                     <TableHead>
                       <TableRow>
-                        <TableCell>ID</TableCell>
-                        <TableCell>Dirección</TableCell>
-                        <TableCell>Fecha de Creación</TableCell>
-                        <TableCell>Usuario Creador</TableCell>
+                        <TableCell style={{background:'rgb(22, 163, 74)', color: 'white'}}>ID</TableCell>
+                        <TableCell style={{background:'rgb(22, 163, 74)', color: 'white'}}>Dirección</TableCell>
+                        <TableCell style={{background:'rgb(22, 163, 74)', color: 'white'}}>Fecha de Creación</TableCell>
+                        <TableCell style={{background:'rgb(22, 163, 74)', color: 'white'}}>Usuario Creador</TableCell>
                       </TableRow>
                     </TableHead>
                     <TableBody>

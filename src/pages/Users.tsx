@@ -6,6 +6,8 @@ import Modal from './components/Modal';
 import SelectHousing from './components/SelectHousing';
 import ModalError from './components/ModalError'
 import NavBar from './components/NavBar';
+import { Pencil, Trash2, UserPlus} from 'lucide-react'
+import "../styles/globals.css"
 
 interface User {
   id: number;
@@ -172,89 +174,157 @@ const Users: React.FC = () => {
 
   return (
     <div>
-      <NavBar/>
+      <NavBar />
       <Box
         sx={{
           display: 'flex',
-          flexWrap: 'wrap',
+          flexDirection: 'column',
           justifyContent: 'center',
           alignItems: 'center',
+          height: '100vh',
+          padding: '20px',
         }}
       >
-        <Paper elevation={4} style={{ padding: '10px', textAlign: 'center'}}>
-          <Container maxWidth="xl" style={{ flex: "200", width: "100%" }}>
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: "center" }}>
-            <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center', width: '100%', margin:'10px'}}>
-              <Button
-                variant="contained"
+        <Paper elevation={4} style={{ padding: '10px', textAlign: 'center', width: '100%', maxWidth: '1200px', margin:'20px'}}>
+          <Container>
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'space-around',
+                alignItems: 'center',
+                width: '100%',
+                margin: '10px',
+              }}
+            >
+              <div
                 style={{
-                  backgroundColor: 'darkgray',
-                  color: 'black',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'flex-start',
+                  width: '40%',
                 }}
-                onClick={handleOpenModal}
               >
-                Crear
-              </Button>
-              
-              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '40%' }}>
-                <Typography style={{ marginBottom: '5px' }}>Buscar Por Documento</Typography>
-                <input 
-                  type="text" 
-                  style={{ width: '100%', padding: '10px', boxSizing: 'border-box' }} 
-                  value={searchTerm} 
-                  onChange={handleSearchChange} 
+                <Typography style={{ marginBottom: '5px', fontSize:'1.5rem', fontWeight:'bold'}}>Buscar Por Documento</Typography>
+                <input
+                  type="text"
+                  style={{ width: '100%', padding: '10px', boxSizing: 'border-box' }}
+                  value={searchTerm}
+                  onChange={handleSearchChange}
                   placeholder="Ingrese documento"
                 />
               </div>
               <Button
                 variant="contained"
                 style={{
-                  backgroundColor: 'darkgray',
-                  color: 'black',
+                  backgroundColor: 'rgb(34, 197, 94)',
+                  color: 'white',
+                }}
+                onMouseEnter={(e) => {
+                  const target = e.target as HTMLButtonElement;
+                  target.style.backgroundColor = 'rgb(22, 163, 74)';
+                }}
+                onMouseLeave={(e) => {
+                  const target = e.target as HTMLButtonElement;
+                  target.style.backgroundColor = 'rgb(34, 197, 94)';
+                }}
+                onClick={handleOpenModal}
+              >
+                <UserPlus style={{marginRight:'4px'}}/>
+                Crear
+              </Button>
+              <Button
+                variant="contained"
+                style={{
+                  backgroundColor: 'rgb(59, 130, 246)',
+                  color: 'white',
+                }}
+                onMouseEnter={(e) => {
+                  const target = e.target as HTMLButtonElement;
+                  target.style.backgroundColor = 'rgb(37, 99, 235)';
+                }}
+                onMouseLeave={(e) => {
+                  const target = e.target as HTMLButtonElement;
+                  target.style.backgroundColor = 'rgb(59, 130, 246)';
                 }}
                 onClick={handleAssignHousing}
               >
                 Asignar/Actualizar Vivienda
               </Button>
             </div>
-              <Container maxWidth="lg" style={{ marginTop: '20px' }}>
-                <Typography variant="h5" style={{ marginBottom: '10px' }}>
+          </Container>
+        </Paper>
+  
+        <Paper elevation={4} style={{ padding: '10px', textAlign: 'center', width: '100%', maxWidth: '1200px' }}>
+          <Container maxWidth="xl" style={{ width: '100%' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+              <Container maxWidth="lg" style={{ marginTop: '20px', textAlign:'left'}}>
+                <Typography variant="h5" style={{ marginBottom: '10px', fontWeight:'bold',fontSize:'1.5rem'}}>
                   Lista de Usuarios
                 </Typography>
-                <TableContainer component={Paper} style={{maxHeight: 'auto', overflow: 'auto', maxWidth: '100%'}}>
+                <TableContainer component={Paper} style={{ maxHeight: 'auto', overflow: 'auto', maxWidth: '100%' }}>
                   <Table>
                     <TableHead>
                       <TableRow>
-                        <TableCell>Nombre</TableCell>
-                        <TableCell>Apellido</TableCell>
-                        <TableCell>Cargo</TableCell>
-                        <TableCell>Fecha de Nacimiento</TableCell>
-                        <TableCell>Teléfono</TableCell>
-                        <TableCell>Email</TableCell>
-                        <TableCell>Editar</TableCell>
-                        <TableCell>Eliminar</TableCell>
+                        <TableCell style={{background:'rgb(59, 130, 246)', color: 'white'}}>Nombre</TableCell>
+                        <TableCell style={{background:'rgb(59, 130, 246)', color: 'white'}}>Apellido</TableCell>
+                        <TableCell style={{background:'rgb(59, 130, 246)', color: 'white'}}>Cargo</TableCell>
+                        <TableCell style={{background:'rgb(59, 130, 246)', color: 'white'}}>Fecha de Nacimiento</TableCell>
+                        <TableCell style={{background:'rgb(59, 130, 246)', color: 'white'}}>Teléfono</TableCell>
+                        <TableCell style={{background:'rgb(59, 130, 246)', color: 'white'}}>Email</TableCell>
+                        <TableCell style={{background:'rgb(59, 130, 246)', color: 'white'}}>Editar</TableCell>
+                        <TableCell style={{background:'rgb(59, 130, 246)', color: 'white'}}>Eliminar</TableCell>
                       </TableRow>
                     </TableHead>
                     <TableBody>
-                      {filteredUsers.filter((user) => user.estado === 'A').map((user) => (
-                        <TableRow 
-                        key={user.id}
-                        onClick={() => handleRowClick(user.id)}
-                        style={{
-                            cursor: 'pointer',
-                            backgroundColor: selectedUsers === user.id ? '#e0e0e0' : 'transparent'
-                        }}
-                        >
-                          <TableCell>{user.nombres}</TableCell>
-                          <TableCell>{user.apellidos}</TableCell>
-                          <TableCell>{getCargoDescription(user.idCargo)}</TableCell>
-                          <TableCell>{user.fechaNacimiento}</TableCell>
-                          <TableCell>{user.telefono}</TableCell>
-                          <TableCell>{user.correo}</TableCell>
-                          <TableCell><button onClick={() => handleOpenEditModal(user)}>Editar</button></TableCell>
-                          <TableCell><button onClick={() => handleDeleteUser(user.id)}>Eliminar</button></TableCell>
-                        </TableRow>
-                      ))}
+                      {filteredUsers
+                        .filter((user) => user.estado === 'A')
+                        .map((user) => (
+                          <TableRow
+                            key={user.id}
+                            onClick={() => handleRowClick(user.id)}
+                            style={{
+                              cursor: 'pointer',
+                              backgroundColor: selectedUsers === user.id ? '#e0e0e0' : 'transparent',
+                            }}
+                          >
+                            <TableCell>{user.nombres}</TableCell>
+                            <TableCell>{user.apellidos}</TableCell>
+                            <TableCell>{getCargoDescription(user.idCargo)}</TableCell>
+                            <TableCell>{user.fechaNacimiento}</TableCell>
+                            <TableCell>{user.telefono}</TableCell>
+                            <TableCell>{user.correo}</TableCell>
+                            <TableCell>
+                              <Button style={{
+                                color: 'rgb(59, 130, 246)',
+                              }}
+                              onMouseEnter={(e) => {
+                                const target = e.target as HTMLButtonElement;
+                                target.style.color = 'rgb(37, 99, 235)';
+                              }}
+                              onMouseLeave={(e) => {
+                                const target = e.target as HTMLButtonElement;
+                                target.style.color = 'rgb(59, 130, 246)';
+                              }} onClick={() => handleOpenEditModal(user)}><Pencil size={18}/></Button>
+                            </TableCell>
+                            <TableCell>
+                            <Button
+                              onClick={() => handleDeleteUser(user.id)}
+                              style={{color:'rgb(220, 38, 38)'}}
+                              onMouseEnter={(e) => {
+                                const target = e.target as HTMLButtonElement;
+                                target.style.color = 'rgb(220, 38, 38)';
+                              }}
+                              onMouseLeave={(e) => {
+                                const target = e.target as HTMLButtonElement;
+                                target.style.color = 'rgb(239, 68, 68)';
+                              }}
+                            >
+                              <Trash2 size={18} />
+                            </Button>
+                            </TableCell>
+                          </TableRow>
+                        ))}
                     </TableBody>
                   </Table>
                 </TableContainer>
@@ -263,12 +333,13 @@ const Users: React.FC = () => {
           </Container>
         </Paper>
       </Box>
+  
       <Modal open={openModalPedido} onClose={handleCloseModal} />
-      <SelectHousing open={OpenModalHousing} onClose={handleCloseModalHousing} idUsuario={selectedUsers}/>
+      <SelectHousing open={OpenModalHousing} onClose={handleCloseModalHousing} idUsuario={selectedUsers} />
       <ModalError open={openMessageModal} onClose={handleCloseMessageModal} message={message} />
-      <ModalEditUser open={openEditModal} onClose={handleCloseEditModal} user={selectedUser}/>
+      <ModalEditUser open={openEditModal} onClose={handleCloseEditModal} user={selectedUser} />
     </div>
-  );
+  );      
 };
 
 export default Users;
