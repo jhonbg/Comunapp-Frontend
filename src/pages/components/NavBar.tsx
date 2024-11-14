@@ -2,7 +2,6 @@ import React, {useState ,useEffect }from 'react'
 import { AppBar, Toolbar, Typography, Box } from '@mui/material';
 import SideBar from './SideBar';
 import { useUser } from '../../UserContext';
-import { green } from '@mui/material/colors';
   
 interface Cargo {
   id: number;
