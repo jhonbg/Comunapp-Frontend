@@ -17,7 +17,6 @@ interface User {
     tipoIdentificacion: number;
     identificacion: string;
     correo: string;
-    direccion: string;
     celular: string;
     telefono: string;
     idCargo: number;
@@ -48,7 +47,6 @@ const EditUserModal: React.FC<EditUserModalProps> = ({ open, onClose, user }) =>
   const [idGrupoEtnico, setIdGrupoEtnico] = useState<number | undefined>(gruposEtnico[0]?.id);
   const [identificacion, setIdentificacion] = useState('');
   const [correo, setCorreo] = useState('');
-  const [direccion, setDireccion] = useState('');
   const [celular, setCelular] = useState('');
   const [telefono, setTelefono] = useState('');
   const [idCargo, setIdCargo] = useState<number | undefined>(cargo[0]?.id);
@@ -112,7 +110,6 @@ const EditUserModal: React.FC<EditUserModalProps> = ({ open, onClose, user }) =>
       setTipoIdentificacion(user.tipoIdentificacion || tiposIdentificacion[0]?.id);
       setIdentificacion(user.identificacion || '');
       setCorreo(user.correo || '');
-      setDireccion(user.direccion || '');
       setCelular(user.celular || '');
       setTelefono(user.telefono || '');
       setIdGrupoEtnico(user.idGrupoEtnico || gruposEtnico[0]?.id);
@@ -130,7 +127,6 @@ const EditUserModal: React.FC<EditUserModalProps> = ({ open, onClose, user }) =>
       tipoIdentificacion,
       identificacion,
       correo,
-      direccion,
       celular,
       telefono,
       idCargo,
@@ -175,10 +171,6 @@ const EditUserModal: React.FC<EditUserModalProps> = ({ open, onClose, user }) =>
     }
   };
 
-  const handleTextoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const upperCaseValue = e.target.value.toUpperCase();
-    setDireccion(upperCaseValue);
-  };
 
   return (
     <Modal
@@ -225,7 +217,6 @@ const EditUserModal: React.FC<EditUserModalProps> = ({ open, onClose, user }) =>
             <input type="text" style={{ width: '100%' }} value={apellidos} onChange={(e) => handleInputChange(e, setApellidos)} />
           </div>
         </div>
-
         <div style={{ display: 'flex', gap: '16px' }}>
           <div style={{ flex: 1 }}>
             <Typography>Tipo de Documento*</Typography>
@@ -252,10 +243,6 @@ const EditUserModal: React.FC<EditUserModalProps> = ({ open, onClose, user }) =>
         </div>
         <div style={{ display: 'flex', gap: '16px' }}>
           <div style={{ flex: 1 }}>
-            <Typography>Dirección</Typography>
-            <input type="text" style={{ width: '100%' }} value={direccion} onChange={(e) => handleTextoChange(e)} />
-          </div>
-          <div style={{ flex: 1 }}>
             <Typography>Grupo étnico</Typography>
             <select style={{ width: '100%' }} value={idGrupoEtnico} onChange={(e) => setIdGrupoEtnico(Number(e.target.value))}>
               {gruposEtnico.length > 0 ? (
@@ -269,8 +256,6 @@ const EditUserModal: React.FC<EditUserModalProps> = ({ open, onClose, user }) =>
               )}
             </select>
           </div>
-        </div>
-        <div style={{ display: 'flex', gap: '16px' }}>
           <div style={{ flex: 1 }}>
             <Typography>Teléfono</Typography>
             <input type="text" style={{ width: '100%' }} value={telefono} onChange={(e) => setTelefono(e.target.value)} />
@@ -335,7 +320,7 @@ const EditUserModal: React.FC<EditUserModalProps> = ({ open, onClose, user }) =>
           </div>
         </div>
 
-        <Button variant="contained" onClick={editarUsuario}>Crear Usuario</Button>
+        <Button variant="contained" onClick={editarUsuario}>Actualizar Usuario</Button>
       </Box>
     </Modal>
   );

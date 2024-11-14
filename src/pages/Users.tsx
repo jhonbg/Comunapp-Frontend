@@ -1,5 +1,6 @@
 import { Typography, Box, Button, Container, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from '@mui/material';
 import React, { useState, useEffect } from 'react';
+import axios from 'axios'
 import ModalEditUser from './components/ModalEditUser'
 import Modal from './components/Modal';
 import SelectHousing from './components/SelectHousing';
@@ -13,7 +14,6 @@ interface User {
   tipoIdentificacion: number;
   identificacion: string;
   correo: string;
-  direccion: string;
   celular: string;
   telefono: string;
   idCargo: number;
@@ -26,37 +26,93 @@ interface User {
   estado: string;
 }
 
+interface Cargo {
+  id: number;
+  descripcion: string;
+}
+
 const Users: React.FC = () => {
   const [openEditModal, setOpenEditModal] = useState(false);
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const [openModalPedido, setOpenModalPedido] = useState(false);
   const [OpenModalHousing, setOpenModalHousing] = useState(false);
   const [openMessageModal, setOpenMessageModal] = useState(false);
+  const [cargos, setCargos] = useState<Cargo[]>([]);
   const [message, setMessage] = useState('');
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedUsers, setSelectedUsers] = useState<number | null>(null);
 
-  const API_URL = 'https://comunapp-api.azurewebsites.net/api/persona?code=jHxnbq4O_ZSg5YZHlAebB4nCtW582vBT2bhqBREk-tG5AzFudUVGNw%3D%3D';
+  const API_URL_USERS = 'https://comunapp-api.azurewebsites.net/api/persona?code=jHxnbq4O_ZSg5YZHlAebB4nCtW582vBT2bhqBREk-tG5AzFudUVGNw%3D%3D';
+  const API_URL_CARGOS = 'https://comunapp-api.azurewebsites.net/api/cargo?code=jHxnbq4O_ZSg5YZHlAebB4nCtW582vBT2bhqBREk-tG5AzFudUVGNw%3D%3D';
 
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await fetch(API_URL);
+        const response = await fetch(API_URL_USERS);
         if (!response.ok) {
           throw new Error(`Error al obtener los datos: ${response.statusText}`);
         }
         const data = await response.json();
         setUsers(data);
-        setLoading(false);
       } catch (err) {
+        setLoading(false);
+      } finally {
         setLoading(false);
       }
     };
 
+    const fetchCargos = async () => {
+      try {
+        const response = await fetch(API_URL_CARGOS);
+        if (!response.ok) {
+          throw new Error(`Error al obtener los datos: ${response.statusText}`);
+        }
+        const data = await response.json();
+        setCargos(data);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
     fetchUsers();
+    fetchCargos();
   }, []);
+
+  const handleDeleteUser = async (userId: number) => {
+    console.log(userId);
+    if (!userId) {
+      console.error("Error: El ID de usuario es nulo o indefinido.");
+      setMessage("No se pudo eliminar el usuario porque el ID es inválido.");
+      setOpenMessageModal(true);
+      return;
+    }
+  
+    setSelectedUsers(userId); // Selecciona el usuario al hacer clic en "Eliminar"
+  
+    const confirmDelete = window.confirm('¿Está seguro de que desea eliminar este usuario?');
+    if (!confirmDelete) return;
+  
+    try {
+      const deleteUrl = `https://comunapp-api.azurewebsites.net/api/persona/${userId}?code=jHxnbq4O_ZSg5YZHlAebB4nCtW582vBT2bhqBREk-tG5AzFudUVGNw%3D%3D`;
+      const response = await axios.delete(deleteUrl);
+  
+      if (response.status === 200) {
+        // Remueve el usuario del estado local
+        setUsers((prevUsers) => prevUsers.filter((user) => user.id !== userId));
+        setMessage('Usuario eliminado exitosamente.');
+      } else {
+        setMessage('No se pudo eliminar el usuario.');
+      }
+    } catch (error) {
+      setMessage('Error al eliminar el usuario.');
+      console.error('Error en la eliminación:', error);
+    } finally {
+      setOpenMessageModal(true);
+      setSelectedUsers(null); // Reinicia el usuario seleccionado
+    }
+  }
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value);
@@ -107,6 +163,11 @@ const Users: React.FC = () => {
     } else {
       setOpenModalHousing(true);
     }
+  };
+
+  const getCargoDescription = (id: number): string => {
+    const cargo = cargos.find(c => c.id === id);
+    return cargo ? cargo.descripcion : 'Desconocido';
   };
 
   return (
@@ -166,16 +227,16 @@ const Users: React.FC = () => {
                       <TableRow>
                         <TableCell>Nombre</TableCell>
                         <TableCell>Apellido</TableCell>
-                        <TableCell>Dirección</TableCell>
                         <TableCell>Cargo</TableCell>
                         <TableCell>Fecha de Nacimiento</TableCell>
                         <TableCell>Teléfono</TableCell>
                         <TableCell>Email</TableCell>
                         <TableCell>Editar</TableCell>
+                        <TableCell>Eliminar</TableCell>
                       </TableRow>
                     </TableHead>
                     <TableBody>
-                      {filteredUsers.map((user) => (
+                      {filteredUsers.filter((user) => user.estado === 'A').map((user) => (
                         <TableRow 
                         key={user.id}
                         onClick={() => handleRowClick(user.id)}
@@ -186,12 +247,12 @@ const Users: React.FC = () => {
                         >
                           <TableCell>{user.nombres}</TableCell>
                           <TableCell>{user.apellidos}</TableCell>
-                          <TableCell>{user.direccion}</TableCell>
-                          <TableCell>{user.idCargo}</TableCell>
+                          <TableCell>{getCargoDescription(user.idCargo)}</TableCell>
                           <TableCell>{user.fechaNacimiento}</TableCell>
                           <TableCell>{user.telefono}</TableCell>
                           <TableCell>{user.correo}</TableCell>
                           <TableCell><button onClick={() => handleOpenEditModal(user)}>Editar</button></TableCell>
+                          <TableCell><button onClick={() => handleDeleteUser(user.id)}>Eliminar</button></TableCell>
                         </TableRow>
                       ))}
                     </TableBody>

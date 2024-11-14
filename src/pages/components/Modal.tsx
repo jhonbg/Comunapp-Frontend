@@ -22,11 +22,10 @@ interface ModalMessageProps {
   const [cargo, setCargo] = useState<TipoSelect[]>([]);
   const [nombres, setNombres] = useState('');
   const [apellidos, setApellidos] = useState('');
-  const [tipoIdentificacion, setTipoIdentificacion] = useState<number | undefined>(tiposIdentificacion[0]?.id);
+  const [tipoIdentificacion, setTipoIdentificacion] = useState<number | undefined>(tiposIdentificacion[1]?.id);
   const [idGrupoEtnico, setIdGrupoEtnico] = useState<number | undefined>(gruposEtnico[0]?.id);
   const [identificacion, setIdentificacion] = useState('');
   const [correo, setCorreo] = useState('');
-  const [direccion, setDireccion] = useState('');
   const [celular, setCelular] = useState('');
   const [telefono, setTelefono] = useState('');
   const [idCargo, setIdCargo] = useState<number | undefined>(cargo[0]?.id);
@@ -84,8 +83,8 @@ interface ModalMessageProps {
   }, [open, datosCargados]);
 
   useEffect(() => {
-    if (tiposIdentificacion.length > 0) {
-      setTipoIdentificacion(tiposIdentificacion[0].id);
+    if (tiposIdentificacion.length > 1) {
+      setTipoIdentificacion(tiposIdentificacion[1].id);
     }
     if (gruposEtnico.length > 0) {
       setIdGrupoEtnico(gruposEtnico[0].id);
@@ -104,7 +103,6 @@ interface ModalMessageProps {
       tipoIdentificacion,
       identificacion,
       correo,
-      direccion,
       celular,
       telefono,
       idCargo,
@@ -120,6 +118,7 @@ interface ModalMessageProps {
     try {
       await axios.post('https://comunapp-api.azurewebsites.net/api/persona?code=PlV7W7OwScg_SXH3zVXNUZiQod6S3K1womavfkDhWYOlAzFuPS0iZg%3D%3D', nuevoUsuario);
       alert('Usuario creado exitosamente');
+      console.log(nuevoUsuario);
       onClose();
     } catch (error) {
       if (error instanceof Error) {
@@ -146,11 +145,6 @@ interface ModalMessageProps {
     if (numericValue.length <= 10) { 
       setter(numericValue);
     }
-  };
-
-  const handleTextoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const upperCaseValue = e.target.value.toUpperCase();
-    setDireccion(upperCaseValue);
   };
 
   return (
@@ -222,10 +216,6 @@ interface ModalMessageProps {
         </div>
         <div style={{ display: 'flex', gap: '16px' }}>
           <div style={{ flex: 1 }}>
-            <Typography>Dirección</Typography>
-            <input type="text" style={{ width: '100%' }} value={direccion} onChange={(e) => handleTextoChange(e)} />
-          </div>
-          <div style={{ flex: 1 }}>
             <Typography>Grupo étnico</Typography>
             <select style={{ width: '100%' }} onChange={(e) => setIdGrupoEtnico(Number(e.target.value))}>
               {gruposEtnico.length > 0 ? (
@@ -239,8 +229,6 @@ interface ModalMessageProps {
               )}
             </select>
           </div>
-        </div>
-        <div style={{ display: 'flex', gap: '16px' }}>
           <div style={{ flex: 1 }}>
             <Typography>Teléfono</Typography>
             <input type="text" style={{ width: '100%' }} value={telefono} onChange={(e) => setTelefono(e.target.value)} />

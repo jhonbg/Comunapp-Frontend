@@ -18,6 +18,7 @@ const housingpage: React.FC = () => {
   const [openModalPedido, setOpenModalPedido] = useState(false);
   const [viviendas, setViviendas] = useState<Vivienda[]>([]);
   const [loading, setLoading] = useState(true);
+  const [isUpdating, setIsUpdating] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
 
   const API_URL = 'https://comunapp-api.azurewebsites.net/api/vivienda?code=jHxnbq4O_ZSg5YZHlAebB4nCtW582vBT2bhqBREk-tG5AzFudUVGNw%3D%3D';
@@ -25,14 +26,11 @@ const housingpage: React.FC = () => {
   useEffect(() => {
     const fetchViviendas = async () => {
       try {
-        const response = await fetch(API_URL);
-        if (!response.ok) {
-          throw new Error(`Error al obtener los datos: ${response.statusText}`);
-        }
-        const data = await response.json();
-        setViviendas(data);
-        setLoading(false);
-      } catch (err) {
+        const response = await axios.get(API_URL);
+        setViviendas(response.data);
+      } catch (error) {
+        console.error('Error al obtener los datos:', error);
+      } finally {
         setLoading(false);
       }
     };
@@ -54,29 +52,27 @@ const housingpage: React.FC = () => {
 
   const refetchViviendas = async () => {
     try {
-      const response = await fetch(API_URL);
-      if (!response.ok) {
-        throw new Error(`Error al obtener los datos: ${response.statusText}`);
-      }
-      const data = await response.json();
-      setViviendas(data);
+      setIsUpdating(true);
+      const response = await axios.get(API_URL);
+      setViviendas(response.data);
     } catch (error) {
-      console.error(error);
+      console.error('Error al actualizar las viviendas:', error);
+    } finally {
+      setIsUpdating(false);
     }
   };
 
   const handleAddVivienda = async (nuevaVivienda: { direccion: string; fechaCreacion: string; codigoUsuarioCrea: string }) => {
     try {
-      await axios.post('https://comunapp-api.azurewebsites.net/api/vivienda?code=jHxnbq4O_ZSg5YZHlAebB4nCtW582vBT2bhqBREk-tG5AzFudUVGNw%3D%3D', nuevaVivienda);
+      setIsUpdating(true);
+      await axios.post(API_URL, nuevaVivienda);
       alert('Vivienda creada exitosamente');
       await refetchViviendas(); 
       handleCloseModal();
     } catch (error) {
-      if (error instanceof Error) {
-        console.error(error.message);
-      } else {
-        console.error("Unknown error", error);
-      }
+      console.error('Error al agregar vivienda:', error);
+    } finally {
+      setIsUpdating(false);
     }
   };
 
@@ -129,6 +125,7 @@ const housingpage: React.FC = () => {
                 <Typography variant="h5" style={{ marginBottom: '10px' }}>
                   Lista de Viviendas
                 </Typography>
+                {isUpdating && <div style={{ color: 'blue', marginBottom: '10px' }}>Actualizando datos...</div>}
                 <TableContainer component={Paper} style={{ maxHeight: 'auto', overflow: 'auto', maxWidth: '100%' }}>
                   <Table>
                     <TableHead>
