@@ -117,8 +117,8 @@ interface ModalMessageProps {
 
     try {
       await axios.post('https://comunapp-api.azurewebsites.net/api/persona?code=PlV7W7OwScg_SXH3zVXNUZiQod6S3K1womavfkDhWYOlAzFuPS0iZg%3D%3D', nuevoUsuario);
-      alert('Usuario creado exitosamente');
       console.log(nuevoUsuario);
+      alert('Usuario creado exitosamente');
       onClose();
     } catch (error) {
       if (error instanceof Error) {

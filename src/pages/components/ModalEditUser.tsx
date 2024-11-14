@@ -200,7 +200,7 @@ const EditUserModal: React.FC<EditUserModalProps> = ({ open, onClose, user }) =>
           <Button onClick={onClose}>X</Button>
         </div>
 
-        <Typography id="modal-modal-description" variant='h6' sx={{ mt: 1 }}>
+        <Typography id="modal-modal-description" variant='h6' sx={{ mt: 1, color:'#059669' }}>
           Detalles de Usuario
         </Typography>
         <div style={{ display: 'flex', flexDirection: 'row', justifyContent:'space-around'}}>
@@ -210,17 +210,17 @@ const EditUserModal: React.FC<EditUserModalProps> = ({ open, onClose, user }) =>
         <div style={{ display: 'flex', gap: '16px' }}>
           <div style={{ flex: 1 }}>
             <Typography>Nombre/es*</Typography>
-            <input type="text" style={{ width: '100%' }} value={nombres} onChange={(e) => handleInputChange(e, setNombres)} />
+            <input type="text" style={{ width: '100%', border:'1px solid #A7f3D0' }} value={nombres} onChange={(e) => handleInputChange(e, setNombres)} />
           </div>
           <div style={{ flex: 1 }}>
             <Typography>Apellidos*</Typography>
-            <input type="text" style={{ width: '100%' }} value={apellidos} onChange={(e) => handleInputChange(e, setApellidos)} />
+            <input type="text" style={{ width: '100%', border:'1px solid #A7f3D0' }} value={apellidos} onChange={(e) => handleInputChange(e, setApellidos)} />
           </div>
         </div>
         <div style={{ display: 'flex', gap: '16px' }}>
           <div style={{ flex: 1 }}>
             <Typography>Tipo de Documento*</Typography>
-            <select style={{ width: '100%' }} value={tipoIdentificacion} onChange={(e) => setTipoIdentificacion(Number(e.target.value))}>
+            <select style={{ width: '100%', border:'1px solid #A7f3D0' }} value={tipoIdentificacion} onChange={(e) => setTipoIdentificacion(Number(e.target.value))}>
               {tiposIdentificacion.length > 0 ? (
                 tiposIdentificacion.map((tipo) => (
                   <option key={tipo.id} value={tipo.id}>
@@ -234,17 +234,17 @@ const EditUserModal: React.FC<EditUserModalProps> = ({ open, onClose, user }) =>
           </div>
           <div style={{ flex: 1 }}>
             <Typography>Documento*</Typography>
-            <input type="text" style={{ width: '100%' }} value={identificacion} onChange={(e) => handleNumberChange(e, setIdentificacion)} />
+            <input type="text" style={{ width: '100%', border:'1px solid #A7f3D0' }} value={identificacion} onChange={(e) => handleNumberChange(e, setIdentificacion)} />
           </div>
           <div style={{ flex: 1 }}>
             <Typography>Email*</Typography>
-            <input type="email" style={{ width: '100%' }} value={correo} onChange={(e) => setCorreo(e.target.value)} />
+            <input type="email" style={{ width: '100%', border:'1px solid #A7f3D0' }} value={correo} onChange={(e) => setCorreo(e.target.value)} />
           </div>
         </div>
         <div style={{ display: 'flex', gap: '16px' }}>
           <div style={{ flex: 1 }}>
             <Typography>Grupo étnico</Typography>
-            <select style={{ width: '100%' }} value={idGrupoEtnico} onChange={(e) => setIdGrupoEtnico(Number(e.target.value))}>
+            <select style={{ width: '100%', border:'1px solid #A7f3D0' }} value={idGrupoEtnico} onChange={(e) => setIdGrupoEtnico(Number(e.target.value))}>
               {gruposEtnico.length > 0 ? (
                 gruposEtnico.map((tipo) => (
                   <option key={tipo.id} value={tipo.id}>
@@ -258,41 +258,41 @@ const EditUserModal: React.FC<EditUserModalProps> = ({ open, onClose, user }) =>
           </div>
           <div style={{ flex: 1 }}>
             <Typography>Teléfono</Typography>
-            <input type="text" style={{ width: '100%' }} value={telefono} onChange={(e) => setTelefono(e.target.value)} />
+            <input type="text" style={{ width: '100%', border:'1px solid #A7f3D0' }} value={telefono} onChange={(e) => setTelefono(e.target.value)} />
           </div>
           <div style={{ flex: 1 }}>
             <Typography>Celular</Typography>
-            <input type="text" style={{ width: '100%' }} value={celular} onChange={(e) => handleNumberChange(e, setCelular)} />
+            <input type="text" style={{ width: '100%', border:'1px solid #A7f3D0' }} value={celular} onChange={(e) => handleNumberChange(e, setCelular)} />
           </div>
         </div>
         <div style={{ display: 'flex', gap: '16px' }}>
           <div style={{ flex: 1 }}>
             <Typography>Fecha de nacimiento</Typography>
-            <input type="date" style={{ width: '100%' }} onChange={(e) => setFechaNacimiento(e.target.value)} />
+            <input type="date" style={{ width: '100%', border:'1px solid #A7f3D0' }} onChange={(e) => setFechaNacimiento(e.target.value)} />
           </div>
           <div style={{ flex: 1 }}>
             <Typography>Fecha de inicio de residencia</Typography>
-            <input type="date" style={{ width: '100%' }} onChange={(e) => setFechaInicioResidencia(e.target.value)} />
+            <input type="date" style={{ width: '100%', border:'1px solid #A7f3D0' }} onChange={(e) => setFechaInicioResidencia(e.target.value)} />
           </div>
         </div>
         <div style={{ display: 'flex', gap: '16px' }}>
           <div style={{ flex: 1 }}>
             <Typography>Discapacidad</Typography>
-            <select style={{ width: '100%' }} value={discapacidad} onChange={(e) => setDiscapacidad(Number(e.target.value))}>
+            <select style={{ width: '100%', border:'1px solid #A7f3D0' }} value={discapacidad} onChange={(e) => setDiscapacidad(Number(e.target.value))}>
               <option value="0">No</option>
               <option value="1">Sí</option>
             </select>
           </div>
           <div style={{ flex: 1 }}>
             <Typography>LGTBIQ+</Typography>
-            <select style={{ width: '100%' }} value={lgtbiq} onChange={(e) => setLgtbiq(Number(e.target.value))}>
+            <select style={{ width: '100%', border:'1px solid #A7f3D0' }} value={lgtbiq} onChange={(e) => setLgtbiq(Number(e.target.value))}>
               <option value="0">No</option>
               <option value="1">Sí</option>
             </select>
           </div>
           <div style={{ flex: 1 }}>
             <Typography>Nivel académico</Typography>
-            <select style={{ width: '100%' }} value={idNivelAcademico} onChange={(e) => setIdNivelAcademico(Number(e.target.value))}>
+            <select style={{ width: '100%', border:'1px solid #A7f3D0' }} value={idNivelAcademico} onChange={(e) => setIdNivelAcademico(Number(e.target.value))}>
               {nivelAcademico.length > 0 ? (
                 nivelAcademico.map((tipo) => (
                   <option key={tipo.id} value={tipo.id}>
@@ -306,7 +306,7 @@ const EditUserModal: React.FC<EditUserModalProps> = ({ open, onClose, user }) =>
           </div>
           <div style={{ flex: 1 }}>
             <Typography>Cargo</Typography>
-            <select style={{ width: '100%' }} value={idCargo} onChange={(e) => setIdCargo(Number(e.target.value))}>
+            <select style={{ width: '100%', border:'1px solid #A7f3D0' }} value={idCargo} onChange={(e) => setIdCargo(Number(e.target.value))}>
               {cargo.length > 0 ? (
                 cargo.map((tipo) => (
                   <option key={tipo.id} value={tipo.id}>
@@ -320,7 +320,7 @@ const EditUserModal: React.FC<EditUserModalProps> = ({ open, onClose, user }) =>
           </div>
         </div>
 
-        <Button variant="contained" onClick={editarUsuario}>Actualizar Usuario</Button>
+        <Button variant="contained" onClick={editarUsuario} style={{backgroundColor:'#059669'}}>Actualizar Usuario</Button>
       </Box>
     </Modal>
   );
