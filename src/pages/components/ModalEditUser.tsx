@@ -141,7 +141,7 @@ const EditUserModal: React.FC<EditUserModalProps> = ({ open, onClose, user }) =>
 
     try {
       await axios.post(`https://comunapp-api.azurewebsites.net/api/persona/${user?.id}?code=jHxnbq4O_ZSg5YZHlAebB4nCtW582vBT2bhqBREk-tG5AzFudUVGNw%3D%3D`, editarUsuario);
-      alert('Usuario creado exitosamente');
+      alert('Usuario editado exitosamente');
       onClose();
     } catch (error) {
       if (error instanceof Error) {

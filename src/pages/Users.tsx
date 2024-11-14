@@ -83,7 +83,6 @@ const Users: React.FC = () => {
   }, []);
 
   const handleDeleteUser = async (userId: number) => {
-    console.log(userId);
     if (!userId) {
       console.error("Error: El ID de usuario es nulo o indefinido.");
       setMessage("No se pudo eliminar el usuario porque el ID es inválido.");
@@ -91,7 +90,7 @@ const Users: React.FC = () => {
       return;
     }
   
-    setSelectedUsers(userId); // Selecciona el usuario al hacer clic en "Eliminar"
+    setSelectedUsers(userId);
   
     const confirmDelete = window.confirm('¿Está seguro de que desea eliminar este usuario?');
     if (!confirmDelete) return;
@@ -101,7 +100,6 @@ const Users: React.FC = () => {
       const response = await axios.delete(deleteUrl);
   
       if (response.status === 200) {
-        // Remueve el usuario del estado local
         setUsers((prevUsers) => prevUsers.filter((user) => user.id !== userId));
         setMessage('Usuario eliminado exitosamente.');
       } else {
@@ -112,7 +110,7 @@ const Users: React.FC = () => {
       console.error('Error en la eliminación:', error);
     } finally {
       setOpenMessageModal(true);
-      setSelectedUsers(null); // Reinicia el usuario seleccionado
+      setSelectedUsers(null);
     }
   }
 
@@ -333,7 +331,6 @@ const Users: React.FC = () => {
           </Container>
         </Paper>
       </Box>
-  
       <Modal open={openModalPedido} onClose={handleCloseModal} />
       <SelectHousing open={OpenModalHousing} onClose={handleCloseModalHousing} idUsuario={selectedUsers} />
       <ModalError open={openMessageModal} onClose={handleCloseMessageModal} message={message} />

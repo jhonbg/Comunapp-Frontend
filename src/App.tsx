@@ -3,6 +3,7 @@ import './App.css'
 import LoginForm from './pages/LoginPage';
 import Users from './pages/Users';
 import Housing from './pages/housingpage';
+import Certificates from './pages/certificatespage'
 import { UserProvider } from './UserContext';
 
 
@@ -14,6 +15,7 @@ const App: React.FC=() =>{
           <Route path='/' element={<LoginForm />} />
           <Route path='/Users' element={<Users />} />
           <Route path='/Housing' element={<Housing/>}/>
+          <Route path='/Certificates' element={<Certificates/>}/>
         </Routes>
       </Router>
     </UserProvider>  
