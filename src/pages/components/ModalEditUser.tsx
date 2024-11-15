@@ -56,7 +56,29 @@ const EditUserModal: React.FC<EditUserModalProps> = ({ open, onClose, user }) =>
   const [lgtbiq, setLgtbiq] = useState(0);
   const [idNivelAcademico, setIdNivelAcademico] = useState<number | undefined>(nivelAcademico[0]?.id);
   const [datosCargados, setDatosCargados] = useState(false);
+  
+  const convertDateToInputFormat = (dateString: string): string => {
+    const months: { [key: string]: number } = {
+        Jan: 1, Feb: 2, Mar: 3, Apr: 4, May: 5, Jun: 6,
+        Jul: 7, Aug: 8, Sep: 9, Oct: 10, Nov: 11, Dec: 12
+    };
 
+    const [monthName, day, year] = dateString.split(' ');
+
+    if (!monthName || !day || !year || !months[monthName]) {
+        return '';
+    }
+
+    const month = String(months[monthName]).padStart(2, '0');
+    const formattedDay = String(parseInt(day)).padStart(2, '0');
+    const formattedYear = year;
+
+    return `${formattedYear}-${month}-${formattedDay}`;
+};
+
+const fechaNacimientoFormateada = convertDateToInputFormat(fechaNacimiento);
+const fechaInicioResidenciaFormateada = convertDateToInputFormat(fechaInicioResidencia);
+  
   const fetchTiposIdentificacion = async () => {
     try {
       const response = await axios.get('https://comunapp-api.azurewebsites.net/api/tipoIdentificacion?code=jHxnbq4O_ZSg5YZHlAebB4nCtW582vBT2bhqBREk-tG5AzFudUVGNw%3D%3D');
@@ -130,8 +152,8 @@ const EditUserModal: React.FC<EditUserModalProps> = ({ open, onClose, user }) =>
       celular,
       telefono,
       idCargo,
-      fechaNacimiento: fechaNacimiento || user?.fechaNacimiento,
-      fechaInicioResidencia: fechaInicioResidencia || user?.fechaInicioResidencia,
+      fechaNacimiento: fechaNacimientoFormateada || user?.fechaNacimiento,
+      fechaInicioResidencia: fechaInicioResidenciaFormateada || user?.fechaInicioResidencia,
       discapacidad,
       idGrupoEtnico,
       lgtbiq,
@@ -141,6 +163,7 @@ const EditUserModal: React.FC<EditUserModalProps> = ({ open, onClose, user }) =>
 
     try {
       await axios.post(`https://comunapp-api.azurewebsites.net/api/persona/${user?.id}?code=jHxnbq4O_ZSg5YZHlAebB4nCtW582vBT2bhqBREk-tG5AzFudUVGNw%3D%3D`, editarUsuario);
+      console.log(editarUsuario)
       alert('Usuario editado exitosamente');
       onClose();
     } catch (error) {
@@ -268,11 +291,11 @@ const EditUserModal: React.FC<EditUserModalProps> = ({ open, onClose, user }) =>
         <div style={{ display: 'flex', gap: '16px' }}>
           <div style={{ flex: 1 }}>
             <Typography>Fecha de nacimiento</Typography>
-            <input type="date" style={{ width: '100%', border:'1px solid #A7f3D0' }} onChange={(e) => setFechaNacimiento(e.target.value)} />
+            <input type="date" value={fechaNacimientoFormateada} style={{ width: '100%', border:'1px solid #A7f3D0' }} onChange={(e) => setFechaNacimiento(e.target.value)} />
           </div>
           <div style={{ flex: 1 }}>
             <Typography>Fecha de inicio de residencia</Typography>
-            <input type="date" style={{ width: '100%', border:'1px solid #A7f3D0' }} onChange={(e) => setFechaInicioResidencia(e.target.value)} />
+            <input type="date" value={fechaInicioResidenciaFormateada} style={{ width: '100%', border:'1px solid #A7f3D0' }} onChange={(e) => setFechaInicioResidencia(e.target.value)} />
           </div>
         </div>
         <div style={{ display: 'flex', gap: '16px' }}>
