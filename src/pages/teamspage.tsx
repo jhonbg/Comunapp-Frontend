@@ -71,7 +71,7 @@ const teamspage = () => {
               <Container maxWidth="lg" style={{ marginTop: '20px', textAlign:'left'}}>
                 <div style={{display:'flex', justifyContent:'space-around', marginBottom:'8px'}}>
                   <Typography variant="h5" style={{ marginBottom: '10px', fontWeight:'bold',fontSize:'1.5rem'}}>
-                    Lista de Usuarios
+                    Lista de Reuniones
                   </Typography>
                   <Button variant="contained"
                     style={{
