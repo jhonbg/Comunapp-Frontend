@@ -7,6 +7,7 @@ const SideBar = () => {
     const [isHoveredUser, setIsHoveredUser] = useState(false);
     const [isHoveredViviendas, setIsHoveredViviendas] = useState(false);
     const [isCertificates, setIsCertificates] = useState(false);
+    const [isTeams, setIsTeams] = useState(false);
     const [open, setOpen] = useState(false)
     const navigate = useNavigate();
 
@@ -105,6 +106,19 @@ const SideBar = () => {
                                 <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><g fill="none" fill-rule="evenodd"><path d="m12.593 23.258l-.011.002l-.071.035l-.02.004l-.014-.004l-.071-.035q-.016-.005-.024.005l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427q-.004-.016-.017-.018m.265-.113l-.013.002l-.185.093l-.01.01l-.003.011l.018.43l.005.012l.008.007l.201.093q.019.005.029-.008l.004-.014l-.034-.614q-.005-.018-.02-.022m-.715.002a.02.02 0 0 0-.027.006l-.006.014l-.034.614q.001.018.017.024l.015-.002l.201-.093l.01-.008l.004-.011l.017-.43l-.003-.012l-.01-.01z"/><path fill="currentColor" d="M13.586 2A2 2 0 0 1 15 2.586L19.414 7A2 2 0 0 1 20 8.414V20a2 2 0 0 1-2 2h-5a1 1 0 1 1 0-2h5V10h-4.5A1.5 1.5 0 0 1 12 8.5V4H6v4a1 1 0 0 1-2 0V4a2 2 0 0 1 2-2zM7 10a4 4 0 0 1 3 6.646v4.192a1.1 1.1 0 0 1-1.592.984L7 21.118l-1.408.704A1.1 1.1 0 0 1 4 20.838v-4.192A4 4 0 0 1 7 10m1 7.874a4 4 0 0 1-2 0v1.508l.553-.276a1 1 0 0 1 .894 0l.553.276zM7 12a2 2 0 1 0 0 4a2 2 0 0 0 0-4m7-7.586V8h3.586z"/></g></svg>
                             </Icon>
                             Certificados
+                        </div>
+                        <div onClick={()=>navigate('/Teams')}
+                            style={{
+                                color: isTeams ? '#1E90FF' : 'black',
+                                transition: 'color 0.3s ease',
+                                }}
+                            onMouseEnter={() => setIsTeams(true)}
+                            onMouseLeave={() => setIsTeams(false)}
+                        >
+                            <Icon style={{paddingRight:'2%'}}>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 16 16"><path fill="currentColor" d="M8 2.002a1.998 1.998 0 1 0 0 3.996a1.998 1.998 0 0 0 0-3.996M12.5 3a1.5 1.5 0 1 0 0 3a1.5 1.5 0 0 0 0-3m-9 0a1.5 1.5 0 1 0 0 3a1.5 1.5 0 0 0 0-3M5 7.993A1 1 0 0 1 6 7h4a1 1 0 0 1 1 1v3a3 3 0 0 1-.146.927A3.001 3.001 0 0 1 5 11zM4 8c0-.365.097-.706.268-1H2a1 1 0 0 0-1 1v2.5a2.5 2.5 0 0 0 3.436 2.319A4 4 0 0 1 4 10.999zm8 0v3c0 .655-.157 1.273-.436 1.819A2.5 2.5 0 0 0 15 10.5V8a1 1 0 0 0-1-1h-2.268c.17.294.268.635.268 1"/></svg>
+                            </Icon>
+                            Reuniones
                         </div>
                     </div>
                 </div>

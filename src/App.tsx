@@ -4,6 +4,7 @@ import LoginForm from './pages/LoginPage';
 import Users from './pages/Users';
 import Housing from './pages/housingpage';
 import Certificates from './pages/certificatespage'
+import Teams from './pages/teamspage';
 import { UserProvider } from './UserContext';
 
 
@@ -16,6 +17,7 @@ const App: React.FC=() =>{
           <Route path='/Users' element={<Users />} />
           <Route path='/Housing' element={<Housing/>}/>
           <Route path='/Certificates' element={<Certificates/>}/>
+          <Route path='/Teams' element={<Teams/>}/>
         </Routes>
       </Router>
     </UserProvider>  
