@@ -181,7 +181,7 @@ interface ModalMessageProps {
 
         <div style={{ display: 'flex', gap: '16px' }}>
           <div style={{ flex: 1 }}>
-            <Typography>Nombre/es*</Typography>
+            <Typography>Nombres*</Typography>
             <input type="text" placeholder='Ingrese nombre' style={{ width: '100%', border:'1px solid #A7f3D0'}} value={nombres} onChange={(e) => handleInputChange(e, setNombres)} />
           </div>
           <div style={{ flex: 1 }}>

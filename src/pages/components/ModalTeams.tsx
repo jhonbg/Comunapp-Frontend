@@ -97,18 +97,18 @@ const ModalTeams: React.FC<ModalTeamsProps> = ({ open, onClose}) => {
       }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <Typography id="modal-modal-title" variant='h5' sx={{ fontWeight: 'bold', fontSize: '1.5rem'}}>
-            Nuevo reunion
+            Nuevo reunión
           </Typography>
           <Button style={{color:'#059669'}} onClick={onClose}>X</Button>
         </div>
 
         <Typography id="modal-modal-description" variant='h6' sx={{ color:'#059669'}}>
-          Detalles de la reunion
+          Detalles de la reunión
         </Typography>
 
         <div style={{ display: 'flex', gap: '16px' }}>
           <div style={{ flex: 1 }}>
-            <Typography>Titulo*</Typography>
+            <Typography>Título*</Typography>
             <input type="text" placeholder='Ingrese nombre' style={{ width: '100%', border:'1px solid #A7f3D0'}} onChange={(e) => setTitulo(e.target.value)}
             />
           </div>
@@ -116,11 +116,11 @@ const ModalTeams: React.FC<ModalTeamsProps> = ({ open, onClose}) => {
 
         <div style={{ display: 'flex', gap: '16px' }}>
           <div style={{ flex: 1 }}>
-            <Typography>Fecha Fin De La Reunion*</Typography>
+            <Typography>Fecha Fin De La Reunión*</Typography>
             <input type='datetime-local' value={fechaInicio} onChange={(e) => setFechaInicio(e.target.value)} style={{ width: '100%', border:'1px solid #A7f3D0' }} />
           </div>
           <div style={{ flex: 1 }}>
-            <Typography>Fecha Inicio De La Reunion*</Typography>
+            <Typography>Fecha Inicio De La Reunión*</Typography>
             <input type='datetime-local' value={fechaFin} onChange={(e) => setFechaFin(e.target.value)} style={{ width: '100%', border:'1px solid #A7f3D0' }} />
           </div>
         </div>
@@ -130,7 +130,7 @@ const ModalTeams: React.FC<ModalTeamsProps> = ({ open, onClose}) => {
             value={ordenDia}
             onChange={(e) => setOrdenDia(e.target.value)} placeholder="Ingrese el orden de la reunión" style={{ width: '100%', border: '1px solid #A7f3D0', height: '80px' }}/>
         </div>
-        <Button variant="contained" style={{ width:"100%", backgroundColor:'#059669'}} onClick={handleCreateReunion}>Crear Reunion</Button>
+        <Button variant="contained" style={{ width:"100%", backgroundColor:'#059669'}} onClick={handleCreateReunion}>Crear Reunión</Button>
       </Box>
     </Modal>
   )

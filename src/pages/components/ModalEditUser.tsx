@@ -228,11 +228,11 @@ const fechaInicioResidenciaFormateada = convertDateToInputFormat(fechaInicioResi
         </Typography>
         <div style={{ display: 'flex', flexDirection: 'row', justifyContent:'space-around'}}>
           <Typography>Fecha de Nacimiento: {user?.fechaNacimiento}</Typography>
-          <Typography>Fecha de Inicio Recidencia: {user?.fechaInicioResidencia}</Typography>
+          <Typography>Fecha de Inicio Residencia: {user?.fechaInicioResidencia}</Typography>
         </div>
         <div style={{ display: 'flex', gap: '16px' }}>
           <div style={{ flex: 1 }}>
-            <Typography>Nombre/es*</Typography>
+            <Typography>Nombres*</Typography>
             <input type="text" style={{ width: '100%', border:'1px solid #A7f3D0' }} value={nombres} onChange={(e) => handleInputChange(e, setNombres)} />
           </div>
           <div style={{ flex: 1 }}>
